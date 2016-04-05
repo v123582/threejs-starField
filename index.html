@@ -36,7 +36,7 @@
 		<script src="js/renderers/CanvasRenderer.js"></script>
 
 		<script src="js/libs/stats.min.js"></script>
-		<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+		<script src="js/jquery-1.12.0.min.js"></script>
 
 		<script>
 
@@ -127,6 +127,7 @@
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				//
 
@@ -206,7 +207,15 @@
 
 			}	
 
+
+			var rotate = true;
+			var rotateCount = 0;
+
 			function onDocumentMouseDown( event ) {
+
+				if(rotate)
+					rotate = false;
+
 
 				event.preventDefault();
 
@@ -225,7 +234,6 @@
 					intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
 					console.log('===== onDocumentMouseDown: click =====');
 					console.log(INTERSECTED.userData.id);
-					alert(INTERSECTED.userData.id + " is clicked.");
 					$('#infomationClicked').html(INTERSECTED.userData.id);
 
 				}
@@ -240,14 +248,26 @@
 				*/
 			}
 
-
+			function onDocumentMouseUp( event ) {
+				rotateCount ++;
+				if(!rotate & rotateCount==2){
+					rotate = true;
+					rotateCount = 0;
+				}
+				event.preventDefault();
+			}
 			function animate() {
-
 			    requestAnimationFrame(animate);
-			 
-			    // Render the scene.
-			    renderer.render(scene, camera);
-			    controls.update();
+			    if(rotate){
+			    	render();
+			    	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+			    }
+			    else{
+					
+			    	// Render the scene.
+			    	renderer.render(scene, camera);
+			    	controls.update();
+			    }
 
 			}
 
@@ -258,7 +278,7 @@
 
 				// rotate camera
 
-				theta += 0;
+				theta += 0.5;
 
 				camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
 				camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
@@ -269,21 +289,21 @@
 
 				// find intersections
 
-				
-
 				renderer.render( scene, camera );
 
 			}
 
 			function createOne() {
-				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: Math.random() * 0x808080 + 0x808080, program: programStroke } ) );
+				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: Math.random() * 0x808080 + 0x808080, program: programStroke} ) );
 				particle.position.x = Math.random() * 800 - 400;
 				particle.position.y = Math.random() * 800 - 400;
 				particle.position.z = Math.random() * 800 - 400;
 				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
 				particle.userData.id = objectId++;
+				
 				scene.add( particle );
 				objects.push( particle );
+
 			}
 
 		</script>
