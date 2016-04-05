@@ -1,212 +1,291 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-	<title>Particle Engine (Three.js)</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<link rel=stylesheet href="css/base.css"/>
-</head>
-<body>
+	<head>
+		<title>three.js canvas - interactive particles</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#infomation{
+				position: fixed;
+				bottom: 20px;
+  				right: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='infomation'>
+			<ul>
+				<li>
+					infomationMoved: <span id='infomationMoved'></span>
+				</li>
+				<li>
+					infomationClicked <span id='infomationClicked'></span> 
+				</li>
+			</ul>
+			<button onclick="createOne()">Create</button>
+		</div>
+		<script src="js/three.min.js"></script>
+		<script src="js/OrbitControls.js"></script>
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
 
-<script src="js/Three.js"></script>
-<script src="js/Detector.js"></script>
-<script src="js/Stats.js"></script>
-<script src="js/OrbitControls.js"></script>
-<script src="js/THREEx.KeyboardState.js"></script>
-<script src="js/THREEx.FullScreen.js"></script>
-<script src="js/THREEx.WindowResize.js"></script>
+		<script src="js/libs/stats.min.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 
-<script src="js/ParticleEngine.js"></script>
-<script src="js/ParticleEngineExamples.js"></script>
+		<script>
 
-<!-- GUI for experimenting with values -->		
-<script type='text/javascript' src='js/DAT.GUI.min.js'></script>
+			var container, stats;
+			var camera, scene, renderer;
 
-<!-- jQuery code to display an information button and box when clicked. -->
-<script src="js/jquery-1.9.1.js"></script>
-<script src="js/jquery-ui.js"></script>
-<link rel=stylesheet href="css/jquery-ui.css" />
-<link rel=stylesheet href="css/info.css"/>
-<script src="js/info.js"></script>
-<div id="infoButton"></div>
-<div id="infoBox" title="Demo Information">
-This three.js demo is part of a collection at
-<a href="http://stemkoski.github.io/Three.js/">http://stemkoski.github.io/Three.js/</a>
-</div>
-<!-- ------------------------------------------------------------ -->
+			var raycaster;
+			var mouse;
 
-<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
-<script>
-/*
-	Three.js "tutorials by example"
-	Author: Lee Stemkoski
-	Date: July 2013 (three.js v59dev)
-*/
+			var particleMaterial;
+			var objectId = 0;
+			var objects = [];
 
-// MAIN
+			var PI2 = Math.PI * 2;
 
-// standard global variables
-var container, scene, camera, renderer, controls, stats;
-var keyboard = new THREEx.KeyboardState();
-var clock = new THREE.Clock();
-// custom global variables
-var cube;
+			var programFill = function ( context ) {
 
-init();
-animate();
+				context.beginPath();
+				context.arc( 0, 0, 0.5, 0, PI2, true );
+				context.fill();
 
-// FUNCTIONS 		
-function init() 
-{
-	// SCENE
-	scene = new THREE.Scene();
-	// CAMERA
-	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 2, FAR = 5000;
-	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-	scene.add(camera);
-	camera.position.set(0,200,400);
-	camera.lookAt(scene.position);	
-	// RENDERER
-	if ( Detector.webgl )
-		renderer = new THREE.WebGLRenderer( {antialias:true} );
-	else
-		renderer = new THREE.CanvasRenderer(); 
-	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	container = document.getElementById( 'ThreeJS' );
-	container.appendChild( renderer.domElement );
-	// EVENTS
-	THREEx.WindowResize(renderer, camera);
-	THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
-	// CONTROLS
-	controls = new THREE.OrbitControls( camera, renderer.domElement );
-	// STATS
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.bottom = '0px';
-	stats.domElement.style.zIndex = 100;
-	container.appendChild( stats.domElement );
-	// LIGHT
-	var light = new THREE.PointLight(0xffffff);
-	light.position.set(0,250,0);
-	scene.add(light);
-	// FLOOR
-	var floorTexture = new THREE.ImageUtils.loadTexture( 'images/checkerboard.jpg' );
-	floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
-	floorTexture.repeat.set( 10, 10 );
-	var floorMaterial = new THREE.MeshBasicMaterial( { color: 0x444444, map: floorTexture, side: THREE.DoubleSide } );
-	var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
-	var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-	floor.position.y = -10.5;
-	floor.rotation.x = Math.PI / 2;
-	scene.add(floor);
-	// SKYBOX/FOG
-	var skyBoxGeometry = new THREE.CubeGeometry( 4000, 4000, 4000 );
-	var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.BackSide } );
-	var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
-    scene.add(skyBox);
-	
-	////////////
-	// CUSTOM //
-	////////////
+			};
 
-	
-	this.engine = new ParticleEngine();
-	engine.setValues( Examples.starfield );
-	engine.initialize();
-	
-	// GUI for experimenting with parameters
+			var programStroke = function ( context ) {
 
-	gui = new dat.GUI();	
-	parameters = 
-	{	
-		starfield:  function() { restartEngine( Examples.starfield  ); },
-		test: function() { alert( 'test'  ); }
-	};
+				context.lineWidth = 0.025;
+				context.beginPath();
+				context.arc( 0, 0, 0.5, 0, PI2, true );
+				context.stroke();
 
-	gui.add( parameters, 'starfield'  ).name("Star Field");
-	gui.add( parameters, 'test'  ).name("test");
-	gui.open();	
-}
+			};
 
-function animate() 
-{
-    requestAnimationFrame( animate );
-	render();		
-	update();
-}
+			var INTERSECTED;
 
-function restartEngine(parameters)
-{
-	// resetCamera();
-	
-	// engine.destroy();
-	// engine = new ParticleEngine();
-	engine.setValues( parameters );
-	engine.initialize();
-}
+			init();
+			animate();
 
-function resetCamera()
-{
-	// CAMERA
-	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
-	//camera.up = new THREE.Vector3( 0, 0, 1 );
-	camera.position.set(0,200,400);
-	camera.lookAt(scene.position);	
-	scene.add(camera);
-	
-	controls = new THREE.OrbitControls( camera, renderer.domElement );
-	THREEx.WindowResize(renderer, camera);
-}
+			function init() {
+				console.log('===== init =====');
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				var info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> canvas - interactive particles';
+				container.appendChild( info );
+
+				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.set( 0, 300, 500 );
+				scene = new THREE.Scene();
+
+				for ( var i = 0; i < 10; i ++ ) {
+					createOne();
+				}
+				
+				//
+
+				var PI2 = Math.PI * 2;
+				particleMaterial = new THREE.SpriteCanvasMaterial( {
+
+					color: 0x000000,
+					program: function ( context ) {
+
+						context.beginPath();
+						context.arc( 0, 0, 0.5, 0, PI2, true );
+						context.fill();
+
+					}
+
+				} );
+				
+				raycaster = new THREE.Raycaster();
+				mouse = new THREE.Vector2();
+
+				renderer = new THREE.CanvasRenderer();
+				renderer.setClearColor( 0xf0f0f0 );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				container.appendChild( stats.domElement );
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+				controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
-function update()
-{
-/*
-	if ( keyboard.pressed("1") ) 
-		restartEngine( fountain );
-	if ( keyboard.pressed("2") ) 
-		restartEngine( startunnel );
-	if ( keyboard.pressed("3") ) 
-		restartEngine( starfield );
-	if ( keyboard.pressed("4") ) 
-		restartEngine( fireflies );
-		
-	if ( keyboard.pressed("5") ) 
-		restartEngine( clouds );
-	if ( keyboard.pressed("6") ) 
-		restartEngine( smoke );
-		
-	if ( keyboard.pressed("7") ) 
-		restartEngine( fireball );
-	if ( keyboard.pressed("8") ) 
-		restartEngine( Examples.candle );
-		
-	if ( keyboard.pressed("9") ) 
-		restartEngine( rain );
-	if ( keyboard.pressed("0") ) 
-		restartEngine( snow );
-		
-	if ( keyboard.pressed("q") ) 
-		restartEngine( firework );
-	// also: reset camera angle
-*/
-	
-	controls.update();
-	stats.update();
-	
-	var dt = clock.getDelta();
-	engine.update( dt * 0.5 );	
-}
+			}
 
-function render() 
-{
-	renderer.render( scene, camera );
-}
+			function onWindowResize() {
 
-</script>
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
 
-</body>
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				event.preventDefault();
+
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				raycaster.setFromCamera( mouse, camera );
+
+				var intersects = raycaster.intersectObjects( scene.children );
+
+				if ( intersects.length > 0 ) {
+					if ( INTERSECTED != intersects[ 0 ].object ) {
+						
+
+						if ( INTERSECTED )INTERSECTED.material.program = programStroke;
+
+						INTERSECTED = intersects[ 0 ].object;
+						if ( INTERSECTED && INTERSECTED.material.program != programFill){
+							console.log('===== onDocumentMouseMove: On =====');
+							console.log(INTERSECTED.userData.id);
+							console.log(INTERSECTED.position.x);
+							console.log(INTERSECTED.position.y);
+							$('#infomationMoved').html(INTERSECTED.userData.id);
+							INTERSECTED.material.program = programFill;	
+						}
+						
+
+
+					}
+					else {
+						
+					}
+
+				} else {
+
+
+					if ( INTERSECTED && INTERSECTED.material.program != programStroke){
+						console.log('===== onDocumentMouseMove: Off =====');
+						$('#infomationMoved').html(INTERSECTED.userData.id);
+						INTERSECTED.material.program = programStroke;	
+					}
+
+
+					INTERSECTED = null;
+
+				}
+
+			}
+
+			//
+			function onDocumentTouchStart( event ) {
+				
+				event.preventDefault();
+				
+				event.clientX = event.touches[0].clientX;
+				event.clientY = event.touches[0].clientY;
+				onDocumentMouseDown( event );
+
+			}	
+
+			function onDocumentMouseDown( event ) {
+
+				event.preventDefault();
+
+				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+				console.log(mouse.x);
+				console.log(mouse.y);
+
+				raycaster.setFromCamera( mouse, camera );
+
+				var intersects = raycaster.intersectObjects( objects );
+
+				if ( intersects.length > 0 ) {
+
+					intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+					console.log('===== onDocumentMouseDown: click =====');
+					console.log(INTERSECTED.userData.id);
+					$('#infomationClicked').html(INTERSECTED.userData.id);
+
+				}
+
+				/*
+				// Parse all the faces
+				for ( var i in intersects ) {
+
+					intersects[ i ].face.material[ 0 ].color.setHex( Math.random() * 0xffffff | 0x80000000 );
+
+				}
+				*/
+			}
+
+
+			function animate() {
+
+			    requestAnimationFrame(animate);
+			 
+			    // Render the scene.
+			    renderer.render(scene, camera);
+			    controls.update();
+
+			}
+
+			var radius = 600;
+			var theta = 0;
+
+			function render() {
+
+				// rotate camera
+
+				theta += 0;
+
+				camera.position.x = radius * Math.sin( THREE.Math.degToRad( theta ) );
+				camera.position.y = radius * Math.sin( THREE.Math.degToRad( theta ) );
+				camera.position.z = radius * Math.cos( THREE.Math.degToRad( theta ) );
+				camera.lookAt( scene.position );
+
+				camera.updateMatrixWorld();
+
+				// find intersections
+
+				
+
+				renderer.render( scene, camera );
+
+			}
+
+			function createOne() {
+				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: Math.random() * 0x808080 + 0x808080, program: programStroke } ) );
+				particle.position.x = Math.random() * 800 - 400;
+				particle.position.y = Math.random() * 800 - 400;
+				particle.position.z = Math.random() * 800 - 400;
+				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
+				particle.userData.id = objectId++;
+				scene.add( particle );
+				objects.push( particle );
+			}
+
+		</script>
+
+	</body>
 </html>
