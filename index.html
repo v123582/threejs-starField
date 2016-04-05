@@ -225,6 +225,7 @@
 					intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
 					console.log('===== onDocumentMouseDown: click =====');
 					console.log(INTERSECTED.userData.id);
+					alert(INTERSECTED.userData.id + " is clicked.");
 					$('#infomationClicked').html(INTERSECTED.userData.id);
 
 				}
