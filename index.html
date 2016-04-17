@@ -100,7 +100,7 @@
 				var PI2 = Math.PI * 2;
 				particleMaterial = new THREE.SpriteCanvasMaterial( {
 
-					color: 0x000000,
+					color: 0xF7F8F8,
 					program: function ( context ) {
 
 						context.beginPath();
@@ -115,7 +115,7 @@
 				mouse = new THREE.Vector2();
 
 				renderer = new THREE.CanvasRenderer();
-				renderer.setClearColor( 0xf0f0f0 );
+				renderer.setClearColor( 0x122444 );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
@@ -127,7 +127,6 @@
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				//
 
@@ -230,8 +229,14 @@
 				var intersects = raycaster.intersectObjects( objects );
 
 				if ( intersects.length > 0 ) {
-
-					intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+					if(!INTERSECTED.userData.light){
+						intersects[ 0 ].object.material.color.setHex(0xf39800);
+						INTERSECTED.userData.light = true;
+					}
+					else{
+						intersects[ 0 ].object.material.color.setHex(0xf7f8f8);
+						INTERSECTED.userData.light = false;
+					}
 					console.log('===== onDocumentMouseDown: click =====');
 					console.log(INTERSECTED.userData.id);
 					$('#infomationClicked').html(INTERSECTED.userData.id);
@@ -256,7 +261,7 @@
 				// }
 				// event.preventDefault();
 			}
-			
+
 			function animate() {
 			    // requestAnimationFrame(animate);
 			    // if(rotate){
@@ -296,15 +301,21 @@
 
 				renderer.render( scene, camera );
 
+
 			}
 
 			function createOne() {
-				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: Math.random() * 0x808080 + 0x808080, program: programStroke} ) );
+				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( 
+					{ 	color: new THREE.Color( 0xf7f8f8 ), 
+						program: programStroke
+					}
+				));
 				particle.position.x = Math.random() * 800 - 400;
 				particle.position.y = Math.random() * 800 - 400;
 				particle.position.z = Math.random() * 800 - 400;
 				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
 				particle.userData.id = objectId++;
+				particle.userData.light = false;
 				
 				scene.add( particle );
 				objects.push( particle );
