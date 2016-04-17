@@ -52,7 +52,8 @@
 		</div>
 
 		<div id='createSection'>
-			<button onclick="createOne()">Create One</button>
+			<input type="text" name="fname">
+			<button onclick="createOne()">星願升空</button>
 		</div>
 
 		<script src="js/three.min.js"></script>
@@ -267,10 +268,10 @@
 					$('#date').html(INTERSECTED.userData.date);
 					$('#content').html(INTERSECTED.userData.content);
 					$('#count').html(INTERSECTED.userData.count);
-					var r1= $('<input type="button" value="new button" onclick="fun1(' + INTERSECTED.userData.id + ')" />');
-					var r2= $('<input type="button" value="new button" onclick="fun2(' + INTERSECTED.userData.id + ')" />');
+					var r1= $('<input type="button" value="星願升空" onclick="fun1(' + INTERSECTED.userData.id + ')" />');
+					var r2= $('<input type="button" value="成長星願" onclick="fun2(' + INTERSECTED.userData.id + ')" />');
 					
-					$("#btn").html('').append(r1, r2);
+					$("#btn").html('<br>').append(r1, r2);
 
 
 				}
