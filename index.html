@@ -20,6 +20,7 @@
 	</head>
 	<body>
 		<div id='infomation'>
+			<p id='info'></p>
 			<ul>
 				<li>
 					infomationMoved: <span id='infomationMoved'></span>
@@ -240,6 +241,8 @@
 					console.log('===== onDocumentMouseDown: click =====');
 					console.log(INTERSECTED.userData.id);
 					$('#infomationClicked').html(INTERSECTED.userData.id);
+					console.log(INTERSECTED.userData);
+					$('#info').html(INTERSECTED.userData);
 
 				}
 
@@ -316,6 +319,15 @@
 				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
 				particle.userData.id = objectId++;
 				particle.userData.light = false;
+
+				// 星星物件
+				particle.userData.wishname = '願望名稱';
+				particle.userData.wishpeople = '許願人';
+				particle.userData.date = '許願日期';
+				particle.userData.content = '許願內容';
+				particle.userData.x = 0;
+				particle.userData.y = 0;
+				particle.userData.count = 0;
 				
 				scene.add( particle );
 				objects.push( particle );
