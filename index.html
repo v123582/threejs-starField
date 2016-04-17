@@ -208,13 +208,13 @@
 			}	
 
 
-			var rotate = true;
-			var rotateCount = 0;
+			// var rotate = true;
+			// var rotateCount = 0;
 
 			function onDocumentMouseDown( event ) {
 
-				if(rotate)
-					rotate = false;
+				// if(rotate)
+				// 	rotate = false;
 
 
 				event.preventDefault();
@@ -249,25 +249,30 @@
 			}
 
 			function onDocumentMouseUp( event ) {
-				rotateCount ++;
-				if(!rotate & rotateCount==2){
-					rotate = true;
-					rotateCount = 0;
-				}
-				event.preventDefault();
+				// rotateCount ++;
+				// if(!rotate & rotateCount==2){
+				// 	rotate = true;
+				// 	rotateCount = 0;
+				// }
+				// event.preventDefault();
 			}
+			
 			function animate() {
-			    requestAnimationFrame(animate);
-			    if(rotate){
-			    	render();
-			    	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-			    }
-			    else{
+			    // requestAnimationFrame(animate);
+			    // if(rotate){
+			    // 	render();
+			    // 	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+			    // }
+			    // else{
 					
-			    	// Render the scene.
-			    	renderer.render(scene, camera);
-			    	controls.update();
-			    }
+			    // 	// Render the scene.
+			    // 	renderer.render(scene, camera);
+			    // 	controls.update();
+			    // }
+			    
+			    requestAnimationFrame(animate);
+			    renderer.render(scene, camera);
+			    controls.update();
 
 			}
 
