@@ -13,13 +13,20 @@
 			}
 			#infomation{
 				position: fixed;
-				top: 20px;
-  				right: 20px;
+				top: 40px;
+  				right: 40px;
+  				color: white;
+  				font-size: 18pt;
 			}
 			#titleSection{
 				position: fixed;
 				bottom: 40px;
   				left: 40px;
+			}
+			#createSection{
+				position: fixed;
+				bottom: 80px;
+  				left: 600px;
 			}
 		</style>
 	</head>
@@ -33,17 +40,21 @@
 		</div>
 
 		<div id='infomation'>
-			<p id='info'></p>
-			<ul>
-				<li>
-					infomationMoved: <span id='infomationMoved'></span>
-				</li>
-				<li>
-					infomationClicked <span id='infomationClicked'></span> 
-				</li>
-			</ul>
-			<button onclick="createOne()">Create</button>
+			<p id='info'>
+				<span id='wishname'></span><br>
+				<span id='wishpeople'></span><br>
+				<span id='date'></span><br>
+				<span id='content'></span><br>
+				<span id='count'></span>
+				<span id='btn'></span>
+			</p>
+
 		</div>
+
+		<div id='createSection'>
+			<button onclick="createOne()">Create One</button>
+		</div>
+
 		<script src="js/three.min.js"></script>
 		<script src="js/OrbitControls.js"></script>
 		<script src="js/renderers/Projector.js"></script>
@@ -182,12 +193,11 @@
 							console.log(INTERSECTED.userData.id);
 							console.log(INTERSECTED.position.x);
 							console.log(INTERSECTED.position.y);
-							$('#infomationMoved').html(INTERSECTED.userData.id);
 							INTERSECTED.material.program = programFill;	
+
+
 						}
 						
-
-
 					}
 					else {
 						
@@ -198,10 +208,8 @@
 
 					if ( INTERSECTED && INTERSECTED.material.program != programStroke){
 						console.log('===== onDocumentMouseMove: Off =====');
-						$('#infomationMoved').html(INTERSECTED.userData.id);
 						INTERSECTED.material.program = programStroke;	
 					}
-
 
 					INTERSECTED = null;
 
@@ -253,9 +261,17 @@
 					}
 					console.log('===== onDocumentMouseDown: click =====');
 					console.log(INTERSECTED.userData.id);
-					$('#infomationClicked').html(INTERSECTED.userData.id);
-					console.log(INTERSECTED.userData);
-					$('#info').html(INTERSECTED.userData);
+
+					$('#wishname').html(INTERSECTED.userData.wishname + INTERSECTED.userData.id);
+					$('#wishpeople').html(INTERSECTED.userData.wishpeople);
+					$('#date').html(INTERSECTED.userData.date);
+					$('#content').html(INTERSECTED.userData.content);
+					$('#count').html(INTERSECTED.userData.count);
+					var r1= $('<input type="button" value="new button" onclick="fun1(' + INTERSECTED.userData.id + ')" />');
+					var r2= $('<input type="button" value="new button" onclick="fun2(' + INTERSECTED.userData.id + ')" />');
+					
+					$("#btn").html('').append(r1, r2);
+
 
 				}
 
@@ -345,6 +361,12 @@
 				scene.add( particle );
 				objects.push( particle );
 
+			}
+
+			function fun1(id) {
+				console.log('===== fun1 clicked =====');
+				objects[id].userData.count += 1;
+				$('#count').html(objects[id].userData.count);
 			}
 
 		</script>
