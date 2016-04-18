@@ -41,11 +41,11 @@
 
 		<div id='infomation'>
 			<p id='info'>
-				<span id='wishname'></span><br>
-				<span id='wishpeople'></span><br>
-				<span id='date'></span><br>
-				<span id='content'></span><br>
-				<span id='count'></span>
+				<div><span id='wishid' style="color: white; font-size: 12pt;"></span>
+					 <span id='date' style="color: gray; font-size: 10pt;"></span>
+					 <span id='count' style="color: #f39800; font-size: 10pt;"></span>
+				</div>
+				<span id='wishname' style="color: white; font-size: 18pt;"></span><br>
 				<span id='btn'></span>
 			</p>
 
@@ -191,9 +191,9 @@
 						INTERSECTED = intersects[ 0 ].object;
 						if ( INTERSECTED && INTERSECTED.material.program != programFill){
 							console.log('===== onDocumentMouseMove: On =====');
-							console.log(INTERSECTED.userData.id);
-							console.log(INTERSECTED.position.x);
-							console.log(INTERSECTED.position.y);
+							// console.log(INTERSECTED.userData.id);
+							// console.log(INTERSECTED.position.x);
+							// console.log(INTERSECTED.position.y);
 							INTERSECTED.material.program = programFill;	
 
 
@@ -244,9 +244,10 @@
 				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
-				console.log(mouse.x);
-				console.log(mouse.y);
+				console.log(event.clientX);
+				console.log(event.clientY);
 
+				
 				raycaster.setFromCamera( mouse, camera );
 
 				var intersects = raycaster.intersectObjects( objects );
@@ -263,10 +264,11 @@
 					console.log('===== onDocumentMouseDown: click =====');
 					console.log(INTERSECTED.userData.id);
 
-					$('#wishname').html(INTERSECTED.userData.wishname + INTERSECTED.userData.id);
-					$('#wishpeople').html(INTERSECTED.userData.wishpeople);
+					$("#infomation").css('top', event.clientY - 80 );
+					$("#infomation").css('left', event.clientX + 60 );
+					$('#wishname').html(INTERSECTED.userData.wishname);
+					$('#wishid').html('星願 #'+INTERSECTED.userData.id);
 					$('#date').html(INTERSECTED.userData.date);
-					$('#content').html(INTERSECTED.userData.content);
 					$('#count').html(INTERSECTED.userData.count);
 					var r1= $('<input type="button" value="星願升空" onclick="fun1(' + INTERSECTED.userData.id + ')" />');
 					var r2= $('<input type="button" value="成長星願" onclick="fun2(' + INTERSECTED.userData.id + ')" />');
@@ -343,9 +345,9 @@
 						program: programStroke
 					}
 				));
-				particle.position.x = Math.random() * 800 - 400;
-				particle.position.y = Math.random() * 800 - 400;
-				particle.position.z = Math.random() * 800 - 400;
+				particle.position.x = Math.random() * 1400 - 700;
+				particle.position.y = Math.random() * 400 - 200;
+				particle.position.z = 0;
 				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
 				particle.userData.id = objectId++;
 				particle.userData.light = false;
@@ -353,7 +355,7 @@
 				// 星星物件
 				particle.userData.wishname = '願望名稱';
 				particle.userData.wishpeople = '許願人';
-				particle.userData.date = '許願日期';
+				particle.userData.date = '16/04/16';
 				particle.userData.content = '許願內容';
 				particle.userData.x = 0;
 				particle.userData.y = 0;
