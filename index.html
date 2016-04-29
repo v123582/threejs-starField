@@ -184,7 +184,7 @@
 				// container.appendChild( stats.domElement );
 
 				var url = 'http://localhost/getAll';
-				console.log('Updata::'+ url);
+				console.log('GetAll::'+ url);
 				var initData = [
 					{	id: 3,
 						content: "初始許願內容",
@@ -218,12 +218,19 @@
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'reload', reload, false );
 				//
+				reload();
 
 				window.addEventListener( 'resize', onWindowResize, false );
 				controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
+			}
+
+			function reload() {
+				console.log('===== Reload =====');
+				setTimeout('init()', 10000);
 			}
 
 			function onWindowResize() {
@@ -419,6 +426,7 @@
 			    }
 			  }
 			}
+
 			var newPost = 0;
 			function createOne(state, obj) {
 
