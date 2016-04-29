@@ -8,7 +8,7 @@
 		<meta name="og:description" content="許一個最美好的願，與他人一起探索生命" />
 		<meta property="og:title" content="星願探索 | TedxHsinch"/>
 		<meta property="og:url" content="http://v123582.github.io/threejs-starField/"/>
-		<meta property="og:image" content="http://i.imgur.com/UjAvNQC.png"/>
+		<meta property="og:image" content="http://i.imgur.com/s7eQUnW.png"/>
 
 		<style>
 			body {
@@ -355,7 +355,19 @@
 							INTERSECTED.material.program = programFill;	
 							$("body").css({"cursor":"pointer"});
 
-						}
+							$("#infomation").css('top', event.clientY - 80 );
+							$("#infomation").css('left', event.clientX + 60 );
+							$('#content').html(INTERSECTED.userData.content);
+							$('#wishPeople').html(INTERSECTED.userData.wishPeople);
+							$('#wishid').html('星願 #'+INTERSECTED.userData.id);
+							$('#date').html(INTERSECTED.userData.date);
+							$('#count').html(INTERSECTED.userData.count);
+							var r1= $('<input type="button" class="btn" value="星願升空" onclick="fun1(' + INTERSECTED.userData.localId + ')" />');
+							var r2= $('<input type="button" class="btn" value="成長星願" onclick="fun2(' + INTERSECTED.userData.localId + ')" />');
+							
+							$("#btn").html('<br>').append(r1, r2);
+
+								}
 						
 					}
 					else {
