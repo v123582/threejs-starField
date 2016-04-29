@@ -188,57 +188,57 @@
 				// stats.domElement.style.top = '0px';
 				// container.appendChild( stats.domElement );
 
-				var initData = [
-					{	id: 3,
-						content: "初始許願內容",
-						count: 3,
-						created_at: "2016/4/29",
-						light: false,
-						wishname: "初始許願名稱",
-						wishpeople: "初始許願者",
-						fbId: 123121,
-						email: '123',
-						x: 100,
-						y: 200,
-						z: 100,
-						scale: 60
-					},
-					{	id: 7,
-						content: "初始許願內容",
-						count: 7,
-						created_at: "2016/4/29",
-						light: false,
-						wishname: "初始許願名稱",
-						wishpeople: "初始許願者",
-						x: -200,
-						y: -300,
-						z: -100,
-						scale: 30
-					}
-				];
+				// var initData = [
+				// 	{	id: 3,
+				// 		content: "初始許願內容",
+				// 		count: 3,
+				// 		created_at: "2016/4/29",
+				// 		light: false,
+				// 		wishname: "初始許願名稱",
+				// 		wishpeople: "初始許願者",
+				// 		fbId: 123121,
+				// 		email: '123',
+				// 		x: 100,
+				// 		y: 200,
+				// 		z: 100,
+				// 		scale: 60
+				// 	},
+				// 	{	id: 7,
+				// 		content: "初始許願內容",
+				// 		count: 7,
+				// 		created_at: "2016/4/29",
+				// 		light: false,
+				// 		wishname: "初始許願名稱",
+				// 		wishpeople: "初始許願者",
+				// 		x: -200,
+				// 		y: -300,
+				// 		z: -100,
+				// 		scale: 30
+				// 	}
+				// ];
 
-				var url = 'http://tedxhsinchu.com/get/star/wish';
-				console.log('GetAll::'+ url);
-				$.ajax({
-			        type: 'GET',
-			        dataType: 'json',
-			        data: {},
-			        url: url,
-			        error: function (jqXHR, textStatus, errorThrown) {
-			            console.log(errorThrown);
-			        },
-			        success: function (msg) {
-			            initData = msg; 
+				// var url = 'http://tedxhsinchu.com/get/star/wish';
+				// console.log('GetAll::'+ url);
+				// $.ajax({
+			 //        type: 'GET',
+			 //        dataType: 'json',
+			 //        data: {},
+			 //        url: url,
+			 //        error: function (jqXHR, textStatus, errorThrown) {
+			 //            console.log(errorThrown);
+			 //        },
+			 //        success: function (msg) {
+			 //            initData = msg; 
 
-           				console.log('===== Get Stars =====');
-						console.log(initData);
-						console.log('==========');
+    //        				console.log('===== Get Stars =====');
+				// 		console.log(initData);
+				// 		console.log('==========');
 
-						for ( var i = 0; i < initData.length; i ++ ) {
-						 	createOne('init', initData[i]);
-						}
-			        }
-			    });
+				// 		for ( var i = 0; i < initData.length; i ++ ) {
+				// 		 	createOne('init', initData[i]);
+				// 		}
+			 //        }
+			 //    });
 				
 
 				
@@ -246,12 +246,13 @@
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				reload();
+				
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
 				controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+				reload();
 
 			}
 
@@ -457,7 +458,6 @@
 			    if(isCreate == true)
 			    	createOneAnimation();
 			    requestAnimationFrame(animate);
-			    // render();
 			    renderer.render(scene, camera);
 			    controls.update();
 
