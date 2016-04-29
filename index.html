@@ -49,7 +49,9 @@
 					 <span id='date' style="color: gray; font-size: 10pt;"></span>
 					 <span id='count' style="color: #f39800; font-size: 10pt;"></span>
 				</div>
-				<span id='wishname' style="color: white; font-size: 18pt;"></span><br>
+				<span id='wishname' style="color: white; font-size: 20pt;"></span>
+				<span id='wishpeople' style="color: white; font-size: 10pt;"></span>
+				<br>
 				<span id='btn' style=""></span>
 			</p>
 
@@ -271,6 +273,7 @@
 					$("#infomation").css('top', event.clientY - 80 );
 					$("#infomation").css('left', event.clientX + 60 );
 					$('#wishname').html(INTERSECTED.userData.wishname);
+					$('#wishpeople').html(INTERSECTED.userData.wishpeople);
 					$('#wishid').html('星願 #'+INTERSECTED.userData.id);
 					$('#date').html(INTERSECTED.userData.date);
 					$('#count').html(INTERSECTED.userData.count);
