@@ -46,7 +46,7 @@
 					 <span id='count' style="color: #f39800; font-size: 10pt;"></span>
 				</div>
 				<span id='wishname' style="color: white; font-size: 18pt;"></span><br>
-				<span id='btn'></span>
+				<span id='btn' style=""></span>
 			</p>
 
 		</div>
@@ -276,6 +276,14 @@
 					$("#btn").html('<br>').append(r1, r2);
 
 
+				} else {
+					if(event.path['1'].id != 'btn'){
+						$("#wishname").html('');
+						$("#wishid").html('');
+						$("#date").html('');
+						$("#count").html('');
+						$("#btn").html('');
+					}
 				}
 
 				/*
