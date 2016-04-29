@@ -510,6 +510,15 @@
 			
 			function createOne(state, obj) {
 
+				if(state == 'new'){
+
+					if($('#WishnPeopleInput').val().length == 0){
+						alert('沒有填願望是不能許願的！');
+						return ;
+					}
+				}
+
+
 				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( 
 					{ 	color: new THREE.Color( 0xf7f8f8 ), 
 						program: programStroke
@@ -561,6 +570,7 @@
 				}
 
 				if(state == 'new'){
+
 					var url = 'http://tedxhsinchu.com/star/wish/store' + 
 					'?light='		+ particle.userData.light + 
 					'&wishname=' 	+ particle.userData.wishname + 
