@@ -76,7 +76,7 @@
 					 <span id='count' style="color: #f39800; font-size: 10pt;"></span>
 				</div>
 				<span id='content' style="color: white; font-size: 20pt;"></span>
-				<span id='wishpeople' style="color: white; font-size: 10pt;"></span>
+				<span id='wishPeople' style="color: white; font-size: 10pt;"></span>
 				<br>
 				<span id='btn' style=""></span>
 			</p>
@@ -195,7 +195,7 @@
 				// 		created_at: "2016/4/29",
 				// 		light: false,
 				// 		wishname: "初始許願名稱",
-				// 		wishpeople: "初始許願者",
+				// 		wishPeople: "初始許願者",
 				// 		fbId: 123121,
 				// 		email: '123',
 				// 		x: 100,
@@ -209,7 +209,7 @@
 				// 		created_at: "2016/4/29",
 				// 		light: false,
 				// 		wishname: "初始許願名稱",
-				// 		wishpeople: "初始許願者",
+				// 		wishPeople: "初始許願者",
 				// 		x: -200,
 				// 		y: -300,
 				// 		z: -100,
@@ -402,7 +402,7 @@
 					$("#infomation").css('top', event.clientY - 80 );
 					$("#infomation").css('left', event.clientX + 60 );
 					$('#content').html(INTERSECTED.userData.content);
-					$('#wishpeople').html(INTERSECTED.userData.wishpeople);
+					$('#wishPeople').html(INTERSECTED.userData.wishPeople);
 					$('#wishid').html('星願 #'+INTERSECTED.userData.id);
 					$('#date').html(INTERSECTED.userData.date);
 					$('#count').html(INTERSECTED.userData.count);
@@ -415,7 +415,7 @@
 				} else {
 					if(event.path['1'].id != 'btn'){
 						$("#content").html('');
-						$("#wishpeople").html('');
+						$("#wishPeople").html('');
 						$("#wishid").html('');
 						$("#date").html('');
 						$("#count").html('');
@@ -519,7 +519,7 @@
 				particle.userData.id = '';
 				particle.userData.light = 0;
 				particle.userData.wishname = '創願';
-				particle.userData.wishpeople = $('#WishnPeopleInput').val();
+				particle.userData.wishPeople = $('#WishnPeopleInput').val();
 				particle.userData.fbId = $('#WishFBidInput').val();
 				particle.userData.email = $('#WishEmailInput').val();
 				particle.userData.date = date;
@@ -536,7 +536,7 @@
 					particle.userData.id = obj.id;
 					particle.userData.light = obj.light;
 					particle.userData.wishname = obj.wishname;
-					particle.userData.wishpeople = obj.wishpeople;
+					particle.userData.wishPeople = obj.wishPeople;
 					particle.userData.fbId = obj.fbId;
 					particle.userData.email = obj.email;
 					particle.userData.date =  obj.updated_at;
@@ -552,7 +552,7 @@
 					var url = 'http://tedxhsinchu.com/star/wish/store' + 
 					'?light='		+ particle.userData.light + 
 					'&wishname=' 	+ particle.userData.wishname + 
-					'&wishpeople=' 	+ particle.userData.wishpeople + 
+					'&wishPeople=' 	+ particle.userData.wishPeople + 
 					'&fbId=' 		+ particle.userData.fbId + 
 					'&email=' 		+ particle.userData.email + 
 					'&content=' 	+ particle.userData.content + 
@@ -606,7 +606,7 @@
 						var url = 'http://tedxhsinchu.com/star/wish/update' + 
 							'?light='		+ objects[newId].userData.light + 
 							'&wishname=' 	+ objects[newId].userData.wishname + 
-							'&wishpeople=' 	+ objects[newId].userData.wishpeople + 
+							'&wishPeople=' 	+ objects[newId].userData.wishPeople + 
 							'&fbId=' 		+ objects[newId].userData.fbId + 
 							'&email=' 		+ objects[newId].userData.email + 
 							'&content=' 	+ objects[newId].userData.content + 
@@ -645,7 +645,7 @@
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
-					'&wishpeople=' 	+ objects[id].userData.wishpeople + 
+					'&wishPeople=' 	+ objects[id].userData.wishPeople + 
 					'&fbId=' 		+ objects[id].userData.fbId + 
 					'&email=' 		+ objects[id].userData.email + 
 					'&content=' 	+ objects[id].userData.content + 
@@ -681,7 +681,7 @@
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
-					'&wishpeople=' 	+ objects[id].userData.wishpeople + 
+					'&wishPeople=' 	+ objects[id].userData.wishPeople + 
 					'&fbId=' 		+ objects[id].userData.fbId + 
 					'&email=' 		+ objects[id].userData.email + 
 					'&content=' 	+ objects[id].userData.content + 
@@ -766,7 +766,7 @@
 				  	console.log('===== Facebook Login =====');
 				    console.log(response);  
 				    $('#WishnPeopleInput').val(response.name);
-				    $('#WishFBid').val(response.id);	
+				    $('#WishFBidInput').val(response.id);	
 				    $('#WishEmailInput').val(response.email);				    
 				  });  
 				  
