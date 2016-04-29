@@ -510,7 +510,7 @@
 				console.log('===== 星願升空 clicked =====');
 				objects[id].userData.count += 1;
 				$('#count').html(objects[id].userData.count);
-				objects[id].position.y = objects[id].position.y + 1;
+				objects[id].userData.y = objects[id].position.y = objects[id].position.y + 1;
 				var url = 'http://localhost/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
@@ -531,7 +531,7 @@
 				console.log('===== 成長星願 clicked =====');
 				objects[id].userData.count += 1;
 				$('#count').html(objects[id].userData.count);
-				objects[id].scale.x = objects[id].scale.y = objects[id].scale.y +1;
+				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = objects[id].scale.y +1;
 				var url = 'http://localhost/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
