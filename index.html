@@ -246,6 +246,7 @@
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				reload();
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -254,9 +255,48 @@
 
 			}
 
+			function loadData() {
+				console.log('===== Clear =====');
+				for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
+	                j = scene.children[ i ];
+	                scene.remove(j);
+	            }
+	            console.log('===== scene =====');
+	            console.log(scene.children);
+	            console.log('==========');
+				console.log('===== loadData =====');
+				var url = 'http://tedxhsinchu.com/get/star/wish';
+				console.log('GetAll::'+ url);
+				$.ajax({
+			        type: 'GET',
+			        dataType: 'json',
+			        data: {},
+			        url: url,
+			        error: function (jqXHR, textStatus, errorThrown) {
+			            console.log(errorThrown);
+			        },
+			        success: function (msg) {
+			            initData = msg; 
+
+           				console.log('===== Get Stars =====');
+						console.log(initData);
+						console.log('==========');
+
+						for ( var i = 0; i < initData.length; i ++ ) {
+						 	createOne('init', initData[i]);
+						}
+						console.log('===== scene =====');
+						console.log(scene.children);
+			        }
+			    });
+			    
+			    console.log('==========');
+			}
+
 			function reload() {
 				console.log('===== Reload =====');
-				setTimeout('init()', 10000);
+				if(isCreate != true) loadData();
+				setTimeout('reload()', 10000);
 				console.log('==========');
 
 			}
@@ -478,14 +518,14 @@
 				particle.userData.localId = newId;
 				particle.userData.id = '';
 				particle.userData.light = 0;
-				particle.userData.content = $('#contentInput').val();
+				particle.userData.wishname = '創願';
 				particle.userData.wishpeople = $('#WishnPeopleInput').val();
 				particle.userData.fbId = $('#WishFBidInput').val();
 				particle.userData.email = $('#WishEmailInput').val();
 				particle.userData.date = date;
-				particle.userData.content = '許願內容';
+				particle.userData.content = $('#contentInput').val();
 				particle.userData.x = particle.position.x;
-				particle.userData.y = particle.position.y;
+				particle.userData.y = 100;
 				particle.userData.z = particle.position.z;
 				particle.userData.scale = particle.scale.x;
 				particle.userData.count = 0;
