@@ -255,16 +255,16 @@
 				reload();
 
 			}
-
+			var maxId = 0;
 			function loadData() {
-				console.log('===== Clear =====');
-				for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
-	                j = scene.children[ i ];
-	                scene.remove(j);
-	            }
-	            console.log('===== scene =====');
-	            console.log(scene.children);
-	            console.log('==========');
+				// console.log('===== Clear =====');
+				// for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
+	   //              j = scene.children[ i ];
+	   //              scene.remove(j);
+	   //          }
+	   //          console.log('===== scene =====');
+	   //          console.log(scene.children);
+	   //          console.log('==========');
 				console.log('===== loadData =====');
 				var url = 'http://tedxhsinchu.com/get/star/wish';
 				console.log('GetAll::'+ url);
@@ -284,7 +284,19 @@
 						console.log('==========');
 
 						for ( var i = 0; i < initData.length; i ++ ) {
-						 	createOne('init', initData[i]);
+							if(scene.children.length === 0) createOne('init', initData[i]);
+							if(initData[i].id > maxId){
+								maxId = initData[i].id;
+								for ( var j = 0; j < scene.children.length; j ++ ) {
+									console.log('data=>' + initData[i].id);
+									console.log('scene=>' + scene.children[j].userData.id);
+									if(initData[i].id != scene.children[j].userData.id){
+										createOne('init', initData[i]);
+										break;
+									}
+								}
+
+							}
 						}
 						console.log('===== scene =====');
 						console.log(scene.children);
@@ -297,7 +309,7 @@
 			function reload() {
 				console.log('===== Reload =====');
 				if(isCreate != true) loadData();
-				// setTimeout('reload()', 10000);
+				setTimeout('reload()', 10000);
 				console.log('==========');
 
 			}
@@ -619,7 +631,6 @@
 						console.log('Updata::' + url);
 						$.ajax({
 						        type: 'GET',
-						        dataType: 'json',
 						        data: {},
 						        url: url,
 						        error: function (jqXHR, textStatus, errorThrown) {
