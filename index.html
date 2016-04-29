@@ -94,12 +94,12 @@
 		<script src="js/renderers/Projector.js"></script>
 		<script src="js/renderers/CanvasRenderer.js"></script>
 
-		<script src="js/libs/stats.min.js"></script>
+		<!-- <script src="js/libs/stats.min.js"></script> -->
 		<script src="js/jquery-1.12.0.min.js"></script>
 
 		<script>
 
-			var container, stats;
+			var container;
 			var camera, scene, renderer;
 
 			var raycaster;
@@ -140,13 +140,13 @@
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
-				var info = document.createElement( 'div' );
-				info.style.position = 'absolute';
-				info.style.top = '10px';
-				info.style.width = '100%';
-				info.style.textAlign = 'center';
-				info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> canvas - interactive particles';
-				container.appendChild( info );
+				// var info = document.createElement( 'div' );
+				// info.style.position = 'absolute';
+				// info.style.top = '10px';
+				// info.style.width = '100%';
+				// info.style.textAlign = 'center';
+				// info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> canvas - interactive particles';
+				// container.appendChild( info );
 
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.set( 0, 300, 500 );
@@ -178,10 +178,10 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
-				stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.top = '0px';
-				container.appendChild( stats.domElement );
+				// stats = new Stats();
+				// stats.domElement.style.position = 'absolute';
+				// stats.domElement.style.top = '0px';
+				// container.appendChild( stats.domElement );
 
 				var url = 'http://localhost/getAll';
 				console.log('Updata::'+ url);
