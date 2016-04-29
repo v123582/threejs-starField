@@ -210,7 +210,7 @@
 				// 		count: 3,
 				// 		created_at: "2016/4/29",
 				// 		light: false,
-				// 		wishname: "初始許願名稱",
+				// 		wishName: "初始許願名稱",
 				// 		wishPeople: "初始許願者",
 				// 		fbId: 123121,
 				// 		email: '123',
@@ -224,7 +224,7 @@
 				// 		count: 7,
 				// 		created_at: "2016/4/29",
 				// 		light: false,
-				// 		wishname: "初始許願名稱",
+				// 		wishName: "初始許願名稱",
 				// 		wishPeople: "初始許願者",
 				// 		x: -200,
 				// 		y: -300,
@@ -567,7 +567,7 @@
 				particle.userData.localId = newId;
 				particle.userData.id = '';
 				particle.userData.light = 0;
-				particle.userData.wishname = '創願';
+				particle.userData.wishName = '創願';
 				particle.userData.wishPeople = $('#WishnPeopleInput').val();
 				particle.userData.fbId = $('#WishFBidInput').val();
 				particle.userData.email = $('#WishEmailInput').val();
@@ -584,7 +584,7 @@
 				if(state == 'init'){
 					particle.userData.id = obj.id;
 					particle.userData.light = obj.light;
-					particle.userData.wishname = obj.wishname;
+					particle.userData.wishName = obj.wishName;
 					particle.userData.wishPeople = obj.wishPeople;
 					particle.userData.fbId = obj.fbId;
 					particle.userData.email = obj.email;
@@ -601,7 +601,7 @@
 
 					var url = 'http://tedxhsinchu.com/star/wish/store' + 
 					'?light='		+ particle.userData.light + 
-					'&wishname=' 	+ particle.userData.wishname + 
+					'&wishName=' 	+ particle.userData.wishName + 
 					'&wishPeople=' 	+ particle.userData.wishPeople + 
 					'&fbId=' 		+ particle.userData.fbId + 
 					'&email=' 		+ particle.userData.email + 
@@ -655,7 +655,7 @@
 						isCreate = false;
 						var url = 'http://tedxhsinchu.com/star/wish/update' + 
 							'?light='		+ objects[newId].userData.light + 
-							'&wishname=' 	+ objects[newId].userData.wishname + 
+							'&wishName=' 	+ objects[newId].userData.wishName + 
 							'&wishPeople=' 	+ objects[newId].userData.wishPeople + 
 							'&fbId=' 		+ objects[newId].userData.fbId + 
 							'&email=' 		+ objects[newId].userData.email + 
@@ -693,7 +693,7 @@
 				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + 5;
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
-					'&wishname=' 	+ objects[id].userData.wishname + 
+					'&wishName=' 	+ objects[id].userData.wishName + 
 					'&wishPeople=' 	+ objects[id].userData.wishPeople + 
 					'&fbId=' 		+ objects[id].userData.fbId + 
 					'&email=' 		+ objects[id].userData.email + 
@@ -729,7 +729,7 @@
 				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) +10;
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
-					'&wishname=' 	+ objects[id].userData.wishname + 
+					'&wishName=' 	+ objects[id].userData.wishName + 
 					'&wishPeople=' 	+ objects[id].userData.wishPeople + 
 					'&fbId=' 		+ objects[id].userData.fbId + 
 					'&email=' 		+ objects[id].userData.email + 
