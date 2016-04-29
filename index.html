@@ -141,7 +141,7 @@
 			animate();
 
 			function init() {
-				console.log('===== init =====');
+				// console.log('===== init =====');
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
 
@@ -218,21 +218,21 @@
 				// ];
 
 				// var url = 'http://tedxhsinchu.com/get/star/wish';
-				// console.log('GetAll::'+ url);
+				// // console.log('GetAll::'+ url);
 				// $.ajax({
 			 //        type: 'GET',
 			 //        dataType: 'json',
 			 //        data: {},
 			 //        url: url,
 			 //        error: function (jqXHR, textStatus, errorThrown) {
-			 //            console.log(errorThrown);
+			 //            // console.log(errorThrown);
 			 //        },
 			 //        success: function (msg) {
 			 //            initData = msg; 
 
-    //        				console.log('===== Get Stars =====');
-				// 		console.log(initData);
-				// 		console.log('==========');
+    //        				// console.log('===== Get Stars =====');
+				// 		// console.log(initData);
+				// 		// console.log('==========');
 
 				// 		for ( var i = 0; i < initData.length; i ++ ) {
 				// 		 	createOne('init', initData[i]);
@@ -257,39 +257,39 @@
 			}
 			var maxId = 0;
 			function loadData() {
-				// console.log('===== Clear =====');
+				// // console.log('===== Clear =====');
 				// for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
 	   //              j = scene.children[ i ];
 	   //              scene.remove(j);
 	   //          }
-	   //          console.log('===== scene =====');
-	   //          console.log(scene.children);
-	   //          console.log('==========');
-				console.log('===== loadData =====');
+	   //          // console.log('===== scene =====');
+	   //          // console.log(scene.children);
+	   //          // console.log('==========');
+				// console.log('===== loadData =====');
 				var url = 'http://tedxhsinchu.com/get/star/wish';
-				console.log('GetAll::'+ url);
+				// console.log('GetAll::'+ url);
 				$.ajax({
 			        type: 'GET',
 			        dataType: 'json',
 			        data: {},
 			        url: url,
 			        error: function (jqXHR, textStatus, errorThrown) {
-			            console.log(errorThrown);
+			            // console.log(errorThrown);
 			        },
 			        success: function (msg) {
 			            initData = msg; 
 
-           				console.log('===== Get Stars =====');
-						console.log(initData);
-						console.log('==========');
+           				// console.log('===== Get Stars =====');
+						// console.log(initData);
+						// console.log('==========');
 
 						for ( var i = 0; i < initData.length; i ++ ) {
 							if(scene.children.length === 0) createOne('init', initData[i]);
 							if(initData[i].id > maxId){
 								maxId = initData[i].id;
 								for ( var j = 0; j < scene.children.length; j ++ ) {
-									console.log('data=>' + initData[i].id);
-									console.log('scene=>' + scene.children[j].userData.id);
+									// console.log('data=>' + initData[i].id);
+									// console.log('scene=>' + scene.children[j].userData.id);
 									if(initData[i].id != scene.children[j].userData.id){
 										createOne('init', initData[i]);
 										break;
@@ -298,19 +298,19 @@
 
 							}
 						}
-						console.log('===== scene =====');
-						console.log(scene.children);
+						// console.log('===== scene =====');
+						// console.log(scene.children);
 			        }
 			    });
 			    
-			    console.log('==========');
+			    // console.log('==========');
 			}
 
 			function reload() {
-				console.log('===== Reload =====');
+				// console.log('===== Reload =====');
 				if(isCreate != true) loadData();
-				setTimeout('reload()', 10000);
-				console.log('==========');
+				setTimeout('reload()', 2000);
+				// console.log('==========');
 
 			}
 
@@ -342,10 +342,10 @@
 
 						INTERSECTED = intersects[ 0 ].object;
 						if ( INTERSECTED && INTERSECTED.material.program != programFill){
-							console.log('===== onDocumentMouseMove: On =====');
-							// console.log(INTERSECTED.userData.id);
-							// console.log(INTERSECTED.position.x);
-							// console.log(INTERSECTED.position.y);
+							// console.log('===== onDocumentMouseMove: On =====');
+							// // console.log(INTERSECTED.userData.id);
+							// // console.log(INTERSECTED.position.x);
+							// // console.log(INTERSECTED.position.y);
 							INTERSECTED.material.program = programFill;	
 							$("body").css({"cursor":"pointer"});
 
@@ -360,7 +360,7 @@
 					$("body").css({"cursor":""});
 
 					if ( INTERSECTED && INTERSECTED.material.program != programStroke){
-						console.log('===== onDocumentMouseMove: Off =====');
+						// console.log('===== onDocumentMouseMove: Off =====');
 						INTERSECTED.material.program = programStroke;	
 					}
 
@@ -409,7 +409,7 @@
 						intersects[ 0 ].object.material.color.setHex(0xf7f8f8);
 						INTERSECTED.userData.light = false;
 					}
-					console.log('===== onDocumentMouseDown: click =====');
+					// console.log('===== onDocumentMouseDown: click =====');
 
 					$("#infomation").css('top', event.clientY - 80 );
 					$("#infomation").css('left', event.clientX + 60 );
@@ -583,7 +583,7 @@
 					'&z=' 			+ particle.userData.z + 
 					'&scale=' 		+ particle.userData.scale + 
 					'&count=' 		+ particle.userData.count;
-					console.log('Create::' + url);
+					// console.log('Create::' + url);
 
 					$.ajax({
 				        type: 'GET',
@@ -591,13 +591,13 @@
 				        data: {},
 				        url: url,
 				        error: function (jqXHR, textStatus, errorThrown) {
-				            console.log(errorThrown);
+				            // console.log(errorThrown);
 				        },
 				        success: function (msg) {
 
-	           				console.log('===== Create Stars =====');
-							console.log(msg);
-							console.log('==========');
+	           				// console.log('===== Create Stars =====');
+							// console.log(msg);
+							// console.log('==========');
 
 							particle.userData.id = msg;
 				        }
@@ -607,7 +607,7 @@
 					
 				}
 				
-				console.log('===== createOne =====');
+				// console.log('===== createOne =====');
 				scene.add( particle );
 				objects.push( particle );
 
@@ -638,19 +638,19 @@
 							'&scale=' 		+ objects[newId].userData.scale + 
 							'&count=' 		+ objects[newId].userData.count +
 							'&id=' 		+ objects[newId].userData.id;
-						console.log('Updata::' + url);
+						// console.log('Updata::' + url);
 						$.ajax({
 						        type: 'GET',
 						        data: {},
 						        url: url,
 						        error: function (jqXHR, textStatus, errorThrown) {
-						            console.log(errorThrown);
+						            // console.log(errorThrown);
 						        },
 						        success: function (msg) {
 
-			           				console.log('===== Updata Stars =====');
-									console.log(msg);
-									console.log('==========');
+			           				// console.log('===== Updata Stars =====');
+									// console.log(msg);
+									// console.log('==========');
 						        }
 						  });
 					}
@@ -659,7 +659,7 @@
 
 			// fun1 星願升空: 星星往上升一點
 			function fun1(id) {
-				console.log('===== 星願升空 clicked =====');
+				// console.log('===== 星願升空 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html(objects[id].userData.count);
 				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + 5;
@@ -676,26 +676,26 @@
 					'&scale=' 		+ objects[id].userData.scale + 
 					'&count=' 		+ objects[id].userData.count +
 					'&id=' 		+ objects[id].userData.id;
-				console.log('Updata::' + url);
+				// console.log('Updata::' + url);
 				$.ajax({
 				        type: 'GET',
 				        data: {},
 				        url: url,
 				        error: function (jqXHR, textStatus, errorThrown) {
-				            console.log(errorThrown);
+				            // console.log(errorThrown);
 				        },
 				        success: function (msg) {
 
-	           				console.log('===== Updata Stars =====');
-							console.log(msg);
-							console.log('==========');
+	           				// console.log('===== Updata Stars =====');
+							// console.log(msg);
+							// console.log('==========');
 				        }
 				    });
 			}
 
 			// fun2 星願升空: 星星變大一點
 			function fun2(id) {
-				console.log('===== 成長星願 clicked =====');
+				// console.log('===== 成長星願 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html(objects[id].userData.count);
 				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) +10;
@@ -712,19 +712,19 @@
 					'&scale=' 		+ objects[id].userData.scale + 
 					'&count=' 		+ objects[id].userData.count +
 					'&id=' 		+ objects[id].userData.id;
-				console.log('Updata::' + url);
+				// console.log('Updata::' + url);
 					$.ajax({
 				        type: 'GET',
 				        data: {},
 				        url: url,
 				        error: function (jqXHR, textStatus, errorThrown) {
-				            console.log(errorThrown);
+				            // console.log(errorThrown);
 				        },
 				        success: function (msg) {
 
-	           				console.log('===== Updata Stars =====');
-							console.log(msg);
-							console.log('==========');
+	           				// console.log('===== Updata Stars =====');
+							// console.log(msg);
+							// console.log('==========');
 				        }
 				    });
 			}
@@ -750,8 +750,8 @@
 
 		      // This is called with the results from from FB.getLoginStatus().  
 				function statusChangeCallback(response) {  
-				  console.log('statusChangeCallback');  
-				  console.log(response);  
+				  // console.log('statusChangeCallback');  
+				  // console.log(response);  
 				  // The response object is returned with a status field that lets the  
 				  // app know the current login status of the person.  
 				  // Full docs on the response object can be found in the documentation  
@@ -784,8 +784,8 @@
 				// successful.  See statusChangeCallback() for when this call is made.  
 				function testAPI() {  
 				  FB.api('/me', function(response) {  
-				  	console.log('===== Facebook Login =====');
-				    console.log(response);  
+				  	// console.log('===== Facebook Login =====');
+				    // console.log(response);  
 				    $('#WishnPeopleInput').val(response.name);
 				    $('#WishFBidInput').val(response.id);	
 				    $('#WishEmailInput').val(response.email);				    
