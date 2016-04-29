@@ -195,7 +195,7 @@
 							// console.log(INTERSECTED.position.x);
 							// console.log(INTERSECTED.position.y);
 							INTERSECTED.material.program = programFill;	
-
+							$("body").css({"cursor":"pointer"});
 
 						}
 						
@@ -205,7 +205,7 @@
 					}
 
 				} else {
-
+					$("body").css({"cursor":""});
 
 					if ( INTERSECTED && INTERSECTED.material.program != programStroke){
 						console.log('===== onDocumentMouseMove: Off =====');
