@@ -31,6 +31,7 @@
 				position: fixed;
 				bottom: 80px;
   				left: 600px;
+  				z-index: 100;
 			}
 		</style>
 	</head>
@@ -58,8 +59,9 @@
 		</div>
 
 		<div id='createSection'>
-			<input type="text" name="fname">
-			<button onclick="createOne()">星願升空</button>
+			<input type="text" id="WishnNameInput" name="WishnNameInput">
+			<input type="text" id="WishnPeopleInput">
+			<button onclick="createOne('new', '');">星願升空</button>
 		</div>
 
 		<script src="js/three.min.js"></script>
@@ -80,6 +82,8 @@
 
 			var particleMaterial;
 			var objectId = 0;
+			var newId;
+			var isCreate = false;
 			var objects = [];
 
 			var PI2 = Math.PI * 2;
@@ -123,9 +127,6 @@
 				camera.position.set( 0, 300, 500 );
 				scene = new THREE.Scene();
 
-				for ( var i = 0; i < 10; i ++ ) {
-					createOne();
-				}
 				
 				//
 
@@ -156,6 +157,35 @@
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
 				container.appendChild( stats.domElement );
+
+
+				var initData = [
+					{	id: 3,
+						content: "初始許願內容",
+						count: 3,
+						date: "2016/4/29",
+						light: false,
+						wishname: "初始許願名稱",
+						wishpeople: "初始許願者",
+						x: 100,
+						y: 200,
+						z: 100
+					},
+					{	id: 7,
+						content: "初始許願內容",
+						count: 7,
+						date: "2016/4/29",
+						light: false,
+						wishname: "初始許願名稱",
+						wishpeople: "初始許願者",
+						x: -200,
+						y: -300,
+						z: -100
+					}
+				];
+				for ( var i = 0; i < initData.length; i ++ ) {
+				 	createOne('init', initData[i]);
+				}
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
@@ -243,17 +273,13 @@
 
 				// if(rotate)
 				// 	rotate = false;
-
-
-				event.preventDefault();
+				if(event.path[0].type!='text')
+					event.preventDefault();
+				
 
 				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-				console.log(event.clientX);
-				console.log(event.clientY);
-
-				
+			
 				raycaster.setFromCamera( mouse, camera );
 
 				var intersects = raycaster.intersectObjects( objects );
@@ -268,7 +294,6 @@
 						INTERSECTED.userData.light = false;
 					}
 					console.log('===== onDocumentMouseDown: click =====');
-					console.log(INTERSECTED.userData.id);
 
 					$("#infomation").css('top', event.clientY - 80 );
 					$("#infomation").css('left', event.clientX + 60 );
@@ -286,6 +311,7 @@
 				} else {
 					if(event.path['1'].id != 'btn'){
 						$("#wishname").html('');
+						$("#wishpeople").html('');
 						$("#wishid").html('');
 						$("#date").html('');
 						$("#count").html('');
@@ -324,8 +350,11 @@
 			    // 	renderer.render(scene, camera);
 			    // 	controls.update();
 			    // }
-			    
+
+			    if(isCreate == true)
+			    	createOneAnimation();
 			    requestAnimationFrame(animate);
+			    // render();
 			    renderer.render(scene, camera);
 			    controls.update();
 
@@ -354,30 +383,93 @@
 
 			}
 
-			function createOne() {
+			function sleep(milliseconds) {
+			  var start = new Date().getTime();
+			  for (var i = 0; i < 1e7; i++) {
+			    if ((new Date().getTime() - start) > milliseconds){
+			      break;
+			    }
+			  }
+			}
+			var newPost = 0;
+			function createOne(state, obj) {
+
 				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( 
 					{ 	color: new THREE.Color( 0xf7f8f8 ), 
 						program: programStroke
 					}
 				));
+				newId = objectId++;
 				particle.position.x = Math.random() * 1400 - 700;
-				particle.position.y = Math.random() * 400 - 200;
-				particle.position.z = Math.random() * 400 - 200;;
+				if(state == 'init') particle.position.y = Math.random() * 400 - 200;
+				if(state == 'new') particle.position.y = newPost = -300;
+				particle.position.z = Math.random() * 400 - 200;
 				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
-				particle.userData.id = objectId++;
-				particle.userData.light = false;
+				
+				var Today = new Date();
+				var month = Today.getMonth()+1;
+				var date = Today.getFullYear()+'/'+month+'/'+Today.getDate();
 
 				// 星星物件
-				particle.userData.wishname = '願望名稱';
-				particle.userData.wishpeople = '許願人';
-				particle.userData.date = '16/04/16';
+				particle.userData.id = '';
+				particle.userData.light = false;
+				particle.userData.wishname = $('#WishnNameInput').val();
+				particle.userData.wishpeople = $('#WishnPeopleInput').val();;
+				particle.userData.date = date;
 				particle.userData.content = '許願內容';
-				particle.userData.x = 0;
-				particle.userData.y = 0;
+				particle.userData.x = particle.position.x;
+				particle.userData.y = particle.position.y;
+				particle.userData.z = particle.position.z;
 				particle.userData.count = 0;
+
+
+
+				if(state == 'init'){
+					particle.userData.id = obj.id;
+					particle.userData.light = obj.light;
+					particle.userData.wishname = obj.wishname;
+					particle.userData.wishpeople = obj.wishpeople;
+					particle.userData.date =  obj.date;
+					particle.userData.content = obj.content;
+					particle.position.x = particle.userData.x = obj.x;
+					particle.position.y = particle.userData.y = obj.y;
+					particle.position.z = particle.userData.z = obj.z;
+					particle.userData.count = obj.count;
+				}
+
+				if(state == 'new'){
+					var url = 'http://localhost/new' + 
+					'?light='		+ particle.userData.light + 
+					'&wishname=' 	+ particle.userData.wishname + 
+					'&wishpeople=' 	+ particle.userData.wishpeople + 
+					'&date=' 		+ particle.userData.date + 
+					'&content=' 	+ particle.userData.content + 
+					'&x=' 			+ particle.userData.x +
+					'&y=' 			+ particle.userData.y + 
+					'&z=' 			+ particle.userData.z + 
+					'&count=' 		+ particle.userData.count;
+					console.log(url);
+					particle.userData.id = 1000;
+				}
 				
+				console.log('===== createOne =====');
 				scene.add( particle );
 				objects.push( particle );
+
+				if(state == 'init')
+					isCreate = false;
+				if(state == 'new')
+					isCreate = true;
+
+			}
+			
+			function createOneAnimation() {
+					objects[newId].position.y = objects[newId].position.y + 1;
+					newPost ++;
+					if(newPost == 100){
+						newPost = 0;
+						isCreate = false;
+					}
 
 			}
 
