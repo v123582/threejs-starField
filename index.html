@@ -75,7 +75,7 @@
 					 <span id='date' style="color: gray; font-size: 10pt;"></span>
 					 <span id='count' style="color: #f39800; font-size: 10pt;"></span>
 				</div>
-				<span id='wishname' style="color: white; font-size: 20pt;"></span>
+				<span id='content' style="color: white; font-size: 20pt;"></span>
 				<span id='wishpeople' style="color: white; font-size: 10pt;"></span>
 				<br>
 				<span id='btn' style=""></span>
@@ -84,9 +84,14 @@
 		</div>
 
 		<div id='createSection'>
-			<input type="text" id="WishnNameInput" class="input" name="WishnNameInput" placeholder="請輸入你想許的願望">
+			<input type="text" id="contentInput" class="input" name="contentInput" placeholder="請輸入你想許的願望">
 			<input type="text" id="WishnPeopleInput" class="input" placeholder="請輸入你的名字">
+			<input type="hidden" id="WishFBidInput">
+			<input type="hidden" id="WishEmailInput">
 			<button class="btn" onclick="createOne('new', '');">星願升空</button>
+
+			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+			</fb:login-button>  
 		</div>
 
 		<script src="js/three.min.js"></script>
@@ -183,16 +188,16 @@
 				// stats.domElement.style.top = '0px';
 				// container.appendChild( stats.domElement );
 
-				var url = 'http://localhost/getAll';
-				console.log('GetAll::'+ url);
 				var initData = [
 					{	id: 3,
 						content: "初始許願內容",
 						count: 3,
-						date: "2016/4/29",
+						created_at: "2016/4/29",
 						light: false,
 						wishname: "初始許願名稱",
 						wishpeople: "初始許願者",
+						fbId: 123121,
+						email: '123',
 						x: 100,
 						y: 200,
 						z: 100,
@@ -201,7 +206,7 @@
 					{	id: 7,
 						content: "初始許願內容",
 						count: 7,
-						date: "2016/4/29",
+						created_at: "2016/4/29",
 						light: false,
 						wishname: "初始許願名稱",
 						wishpeople: "初始許願者",
@@ -211,16 +216,37 @@
 						scale: 30
 					}
 				];
-				for ( var i = 0; i < initData.length; i ++ ) {
-				 	createOne('init', initData[i]);
-				}
+
+				var url = 'http://tedxhsinchu.com/get/star/wish';
+				console.log('GetAll::'+ url);
+				$.ajax({
+			        type: 'GET',
+			        dataType: 'json',
+			        data: {},
+			        url: url,
+			        error: function (jqXHR, textStatus, errorThrown) {
+			            console.log(errorThrown);
+			        },
+			        success: function (msg) {
+			            initData = msg; 
+
+           				console.log('===== Get Stars =====');
+						console.log(initData);
+						console.log('==========');
+
+						for ( var i = 0; i < initData.length; i ++ ) {
+						 	createOne('init', initData[i]);
+						}
+			        }
+			    });
+				
+
+				
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				document.addEventListener( 'reload', reload, false );
 				//
-				reload();
 
 				window.addEventListener( 'resize', onWindowResize, false );
 				controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -231,6 +257,8 @@
 			function reload() {
 				console.log('===== Reload =====');
 				setTimeout('init()', 10000);
+				console.log('==========');
+
 			}
 
 			function onWindowResize() {
@@ -332,7 +360,7 @@
 
 					$("#infomation").css('top', event.clientY - 80 );
 					$("#infomation").css('left', event.clientX + 60 );
-					$('#wishname').html(INTERSECTED.userData.wishname);
+					$('#content').html(INTERSECTED.userData.content);
 					$('#wishpeople').html(INTERSECTED.userData.wishpeople);
 					$('#wishid').html('星願 #'+INTERSECTED.userData.id);
 					$('#date').html(INTERSECTED.userData.date);
@@ -345,7 +373,7 @@
 
 				} else {
 					if(event.path['1'].id != 'btn'){
-						$("#wishname").html('');
+						$("#content").html('');
 						$("#wishpeople").html('');
 						$("#wishid").html('');
 						$("#date").html('');
@@ -427,7 +455,7 @@
 			  }
 			}
 
-			var newPost = 0;
+			
 			function createOne(state, obj) {
 
 				var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( 
@@ -449,9 +477,11 @@
 				// 星星物件
 				particle.userData.localId = newId;
 				particle.userData.id = '';
-				particle.userData.light = false;
-				particle.userData.wishname = $('#WishnNameInput').val();
-				particle.userData.wishpeople = $('#WishnPeopleInput').val();;
+				particle.userData.light = 0;
+				particle.userData.content = $('#contentInput').val();
+				particle.userData.wishpeople = $('#WishnPeopleInput').val();
+				particle.userData.fbId = $('#WishFBidInput').val();
+				particle.userData.email = $('#WishEmailInput').val();
 				particle.userData.date = date;
 				particle.userData.content = '許願內容';
 				particle.userData.x = particle.position.x;
@@ -467,7 +497,9 @@
 					particle.userData.light = obj.light;
 					particle.userData.wishname = obj.wishname;
 					particle.userData.wishpeople = obj.wishpeople;
-					particle.userData.date =  obj.date;
+					particle.userData.fbId = obj.fbId;
+					particle.userData.email = obj.email;
+					particle.userData.date =  obj.updated_at;
 					particle.userData.content = obj.content;
 					particle.position.x = particle.userData.x = obj.x;
 					particle.position.y = particle.userData.y = obj.y;
@@ -477,11 +509,12 @@
 				}
 
 				if(state == 'new'){
-					var url = 'http://localhost/new' + 
+					var url = 'http://tedxhsinchu.com/star/wish/store' + 
 					'?light='		+ particle.userData.light + 
 					'&wishname=' 	+ particle.userData.wishname + 
 					'&wishpeople=' 	+ particle.userData.wishpeople + 
-					'&date=' 		+ particle.userData.date + 
+					'&fbId=' 		+ particle.userData.fbId + 
+					'&email=' 		+ particle.userData.email + 
 					'&content=' 	+ particle.userData.content + 
 					'&x=' 			+ particle.userData.x +
 					'&y=' 			+ particle.userData.y + 
@@ -489,7 +522,27 @@
 					'&scale=' 		+ particle.userData.scale + 
 					'&count=' 		+ particle.userData.count;
 					console.log('Create::' + url);
-					particle.userData.id = 1000;
+
+					$.ajax({
+				        type: 'GET',
+				        dataType: 'json',
+				        data: {},
+				        url: url,
+				        error: function (jqXHR, textStatus, errorThrown) {
+				            console.log(errorThrown);
+				        },
+				        success: function (msg) {
+
+	           				console.log('===== Create Stars =====');
+							console.log(msg);
+							console.log('==========');
+
+							particle.userData.id = msg;
+				        }
+				    });
+
+
+					
 				}
 				
 				console.log('===== createOne =====');
@@ -503,12 +556,42 @@
 
 			}
 			
+			var newPost = 0;
 			function createOneAnimation() {
-					objects[newId].position.y = objects[newId].position.y + 1;
+					objects[newId].userData.y = objects[newId].position.y = objects[newId].position.y + 1;
 					newPost ++;
 					if(newPost == 100){
 						newPost = 0;
 						isCreate = false;
+						var url = 'http://tedxhsinchu.com/star/wish/update' + 
+							'?light='		+ objects[newId].userData.light + 
+							'&wishname=' 	+ objects[newId].userData.wishname + 
+							'&wishpeople=' 	+ objects[newId].userData.wishpeople + 
+							'&fbId=' 		+ objects[newId].userData.fbId + 
+							'&email=' 		+ objects[newId].userData.email + 
+							'&content=' 	+ objects[newId].userData.content + 
+							'&x=' 			+ objects[newId].userData.x +
+							'&y=' 			+ objects[newId].userData.y + 
+							'&z=' 			+ objects[newId].userData.z + 
+							'&scale=' 		+ objects[newId].userData.scale + 
+							'&count=' 		+ objects[newId].userData.count +
+							'&id=' 		+ objects[newId].userData.id;
+						console.log('Updata::' + url);
+						$.ajax({
+						        type: 'GET',
+						        dataType: 'json',
+						        data: {},
+						        url: url,
+						        error: function (jqXHR, textStatus, errorThrown) {
+						            console.log(errorThrown);
+						        },
+						        success: function (msg) {
+
+			           				console.log('===== Updata Stars =====');
+									console.log(msg);
+									console.log('==========');
+						        }
+						  });
 					}
 
 			}
@@ -516,14 +599,15 @@
 			// fun1 星願升空: 星星往上升一點
 			function fun1(id) {
 				console.log('===== 星願升空 clicked =====');
-				objects[id].userData.count += 1;
+				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html(objects[id].userData.count);
-				objects[id].userData.y = objects[id].position.y = objects[id].position.y + 1;
-				var url = 'http://localhost/update' + 
+				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + 1;
+				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
 					'&wishpeople=' 	+ objects[id].userData.wishpeople + 
-					'&date=' 		+ objects[id].userData.date + 
+					'&fbId=' 		+ objects[id].userData.fbId + 
+					'&email=' 		+ objects[id].userData.email + 
 					'&content=' 	+ objects[id].userData.content + 
 					'&x=' 			+ objects[id].userData.x +
 					'&y=' 			+ objects[id].userData.y + 
@@ -532,19 +616,35 @@
 					'&count=' 		+ objects[id].userData.count +
 					'&id=' 		+ objects[id].userData.id;
 				console.log('Updata::' + url);
+				$.ajax({
+				        type: 'GET',
+				        dataType: 'json',
+				        data: {},
+				        url: url,
+				        error: function (jqXHR, textStatus, errorThrown) {
+				            console.log(errorThrown);
+				        },
+				        success: function (msg) {
+
+	           				console.log('===== Updata Stars =====');
+							console.log(msg);
+							console.log('==========');
+				        }
+				    });
 			}
 
 			// fun2 星願升空: 星星變大一點
 			function fun2(id) {
 				console.log('===== 成長星願 clicked =====');
-				objects[id].userData.count += 1;
+				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html(objects[id].userData.count);
-				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = objects[id].scale.y +1;
-				var url = 'http://localhost/update' + 
+				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) +1;
+				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
 					'&wishpeople=' 	+ objects[id].userData.wishpeople + 
-					'&date=' 		+ objects[id].userData.date + 
+					'&fbId=' 		+ objects[id].userData.fbId + 
+					'&email=' 		+ objects[id].userData.email + 
 					'&content=' 	+ objects[id].userData.content + 
 					'&x=' 			+ objects[id].userData.x +
 					'&y=' 			+ objects[id].userData.y + 
@@ -553,9 +653,86 @@
 					'&count=' 		+ objects[id].userData.count +
 					'&id=' 		+ objects[id].userData.id;
 				console.log('Updata::' + url);
+					$.ajax({
+				        type: 'GET',
+				        dataType: 'json',
+				        data: {},
+				        url: url,
+				        error: function (jqXHR, textStatus, errorThrown) {
+				            console.log(errorThrown);
+				        },
+				        success: function (msg) {
+
+	           				console.log('===== Updata Stars =====');
+							console.log(msg);
+							console.log('==========');
+				        }
+				    });
 			}
 
 		</script>
+		<script>  
 
+		      window.fbAsyncInit = function() {  
+		        FB.init({  
+		          appId      : '615056238621832',  
+		          xfbml      : true,  
+		          version    : 'v2.0'  
+		        });  
+		      };  
+		  
+		      (function(d, s, id){  
+		         var js, fjs = d.getElementsByTagName(s)[0];  
+		         if (d.getElementById(id)) {return;}  
+		         js = d.createElement(s); js.id = id;  
+		         js.src = "//connect.facebook.net/en_US/sdk.js";  
+		         fjs.parentNode.insertBefore(js, fjs);  
+		       }(document, 'script', 'facebook-jssdk'));  
+
+		      // This is called with the results from from FB.getLoginStatus().  
+				function statusChangeCallback(response) {  
+				  console.log('statusChangeCallback');  
+				  console.log(response);  
+				  // The response object is returned with a status field that lets the  
+				  // app know the current login status of the person.  
+				  // Full docs on the response object can be found in the documentation  
+				  // for FB.getLoginStatus().  
+				  if (response.status === 'connected') {  
+				    // Logged into your app and Facebook.  
+				    testAPI();  
+				  } else if (response.status === 'not_authorized') {  
+				    // The person is logged into Facebook, but not your app.  
+				    document.getElementById('status').innerHTML = 'Please log ' +  
+				      'into this app.';  
+				  } else {  
+				    // The person is not logged into Facebook, so we're not sure if  
+				    // they are logged into this app or not.  
+				    document.getElementById('status').innerHTML = 'Please log ' +  
+				      'into Facebook.';  
+				  }  
+				}  
+				  
+				// This function is called when someone finishes with the Login  
+				// Button.  See the onlogin handler attached to it in the sample  
+				// code below.  
+				function checkLoginState() {  
+				  FB.getLoginStatus(function(response) {  
+				    statusChangeCallback(response);  
+				  });  
+				}  
+				  
+				// Here we run a very simple test of the Graph API after login is  
+				// successful.  See statusChangeCallback() for when this call is made.  
+				function testAPI() {  
+				  FB.api('/me', function(response) {  
+				  	console.log('===== Facebook Login =====');
+				    console.log(response);  
+				    $('#WishnPeopleInput').val(response.name);
+				    $('#WishFBid').val(response.id);	
+				    $('#WishEmailInput').val(response.email);				    
+				  });  
+				  
+				}  
+		</script>  
 	</body>
 </html>
