@@ -560,7 +560,7 @@
 					particle.userData.wishPeople = obj.wishPeople;
 					particle.userData.fbId = obj.fbId;
 					particle.userData.email = obj.email;
-					particle.userData.date =  obj.updated_at;
+					particle.userData.date =  obj.updated_at.substring(0, 10).replace(/\-/g,"/")
 					particle.userData.content = obj.content;
 					particle.position.x = particle.userData.x = obj.x;
 					particle.position.y = particle.userData.y = obj.y;
