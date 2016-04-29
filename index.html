@@ -598,8 +598,8 @@
 			
 			var newPost = 0;
 			function createOneAnimation() {
-					objects[newId].userData.y = objects[newId].position.y = objects[newId].position.y + 1;
-					newPost ++;
+					objects[newId].userData.y = objects[newId].position.y = objects[newId].position.y + 5;
+					newPost += 5;
 					if(newPost == 100){
 						newPost = 0;
 						isCreate = false;
@@ -641,7 +641,7 @@
 				console.log('===== 星願升空 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html(objects[id].userData.count);
-				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + 1;
+				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + 5;
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishname=' 	+ objects[id].userData.wishname + 
