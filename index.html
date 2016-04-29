@@ -183,7 +183,8 @@
 				stats.domElement.style.top = '0px';
 				container.appendChild( stats.domElement );
 
-
+				var url = 'http://localhost/getAll'
+				console.log('Updata::': url);
 				var initData = [
 					{	id: 3,
 						content: "初始許願內容",
@@ -479,7 +480,7 @@
 					'&z=' 			+ particle.userData.z + 
 					'&scale=' 		+ particle.userData.scale + 
 					'&count=' 		+ particle.userData.count;
-					console.log(url);
+					console.log('Create::' + url);
 					particle.userData.id = 1000;
 				}
 				
@@ -521,7 +522,7 @@
 					'&z=' 			+ objects[id].userData.z + 
 					'&scale=' 		+ objects[id].userData.scale + 
 					'&count=' 		+ objects[id].userData.count;
-				console.log(url);
+				console.log('Updata::': url);
 			}
 
 			// fun2 星願升空: 星星變大一點
@@ -541,7 +542,7 @@
 					'&z=' 			+ objects[id].userData.z + 
 					'&scale=' 		+ objects[id].userData.scale + 
 					'&count=' 		+ objects[id].userData.count;
-				console.log(url);
+				console.log('Updata::': url);
 			}
 
 		</script>
