@@ -355,7 +355,7 @@
 				));
 				particle.position.x = Math.random() * 1400 - 700;
 				particle.position.y = Math.random() * 400 - 200;
-				particle.position.z = 0;
+				particle.position.z = Math.random() * 400 - 200;;
 				particle.scale.x = particle.scale.y = Math.random() * 20 + 20;
 				particle.userData.id = objectId++;
 				particle.userData.light = false;
@@ -374,11 +374,20 @@
 
 			}
 
+			// fun1 星願升空: 星星往上升一點
 			function fun1(id) {
-				console.log('===== fun1 clicked =====');
+				console.log('===== 星願升空 clicked =====');
 				objects[id].userData.count += 1;
 				$('#count').html(objects[id].userData.count);
 				objects[id].position.y = objects[id].position.y + 1;
+			}
+
+			// fun2 星願升空: 星星變大一點
+			function fun2(id) {
+				console.log('===== 成長星願 clicked =====');
+				objects[id].userData.count += 1;
+				$('#count').html(objects[id].userData.count);
+				objects[id].scale.x = objects[id].scale.y = objects[id].scale.y +1;
 			}
 
 		</script>
