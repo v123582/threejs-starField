@@ -557,7 +557,7 @@
 				if(state == 'init') particle.position.y = Math.random() * 400 - 200;
 				if(state == 'new') particle.position.y = newPost = -300;
 				particle.position.z = Math.random() * 400 - 200;
-				particle.scale.x = particle.scale.y = Math.random() * 10 + 10;
+				particle.scale.x = particle.scale.y = Math.random() * 5 + 5;
 				
 				var Today = new Date();
 				var month = Today.getMonth()+1;
@@ -726,7 +726,7 @@
 				// console.log('===== 成長星願 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html(objects[id].userData.count);
-				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) +10;
+				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) +5;
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishName=' 	+ objects[id].userData.wishName + 
