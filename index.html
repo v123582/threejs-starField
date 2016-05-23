@@ -544,7 +544,7 @@
 						alert('沒有填願望是不能許願的！');
 						return ;
 					}
-					if(allWishName.indexOf('邱一晉') > 0){
+					if(allWishName.indexOf($('#WishnPeopleInput').val()) > 0){
 						alert('這個名字已經被使用了 O____O，許願失敗');
 						return;
 					}
@@ -558,9 +558,8 @@
 				));
 				newId = objectId++;
 				particle.position.x = Math.random() * 1400 - 700;
-				if(state == 'init') particle.position.y = Math.random() * 400 - 200;
-				if(state == 'new') particle.position.y = newPost = -300;
-				particle.position.z = Math.random() * 400 - 200;
+				particle.position.y = newPost = -300;
+				particle.position.z = Math.random() * 1000 - 500;
 				particle.scale.x = particle.scale.y = Math.random() * 5 + 5;
 				
 				var Today = new Date();
@@ -657,7 +656,7 @@
 			function createOneAnimation() {
 					objects[newId].userData.y = objects[newId].position.y = objects[newId].position.y + 5;
 					newPost += 5;
-					if(newPost == 100){
+					if(newPost == 200){
 						newPost = 0;
 						isCreate = false;
 						var url = 'http://tedxhsinchu.com/star/wish/update' + 
