@@ -96,10 +96,14 @@
 				<br>
 				<span id='btn' style=""></span>
 			</p>
-
 		</div>
 
 		<div id='createSection'>
+			<span id='wishHoverPeople' style="color: white; font-size: 12pt;">__________</span>
+			<span style="color: gray; font-size: 12pt;"> 許了 </span>
+			<span id='wishHoverName' style="color: white; font-size: 12pt;">______________</span>
+			<span style="color: gray; font-size: 12pt;"> 的創願 </span>
+			<br><br>
 			<input type="text" id="contentInput" class="input" name="contentInput" placeholder="請輸入你想許的願望">
 			<input type="text" id="WishnPeopleInput" class="input" placeholder="請輸入你的名字">
 			<input type="hidden" id="WishFBidInput">
@@ -341,8 +345,13 @@
 
 			function onDocumentMouseMove( event ) {
 
-				event.preventDefault();
+				if(event.path[0].type == 'button'){
+					return true;
+				}
 
+				event.preventDefault();
+				
+				
 				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
@@ -364,20 +373,9 @@
 							// // console.log(INTERSECTED.position.y);
 							INTERSECTED.material.program = programFill;	
 							$("body").css({"cursor":"pointer"});
-
-							$("#infomation").css('top', event.clientY - 80 );
-							$("#infomation").css('left', event.clientX + 60 );
-							$('#content').html(INTERSECTED.userData.content);
-							$('#wishPeople').html(INTERSECTED.userData.wishPeople);
-							$('#wishid').html('星願 #'+INTERSECTED.userData.id);
-							$('#date').html(INTERSECTED.userData.date);
-							$('#count').html(INTERSECTED.userData.count);
-							var r1= $('<input type="button" class="btn" value="星願升空" onclick="fun1(' + INTERSECTED.userData.localId + ')" />');
-							var r2= $('<input type="button" class="btn" value="成長星願" onclick="fun2(' + INTERSECTED.userData.localId + ')" />');
-							
-							$("#btn").html('<br>').append(r1, r2);
-
-								}
+							$('#wishHoverPeople').html(INTERSECTED.userData.wishPeople);
+							$('#wishHoverName').html(INTERSECTED.userData.content);
+						}
 						
 					}
 					else {
@@ -414,12 +412,13 @@
 			// var rotateCount = 0;
 
 			function onDocumentMouseDown( event ) {
+				
+				if(event.path[0].type == 'button'){
+					return true;
+				}
 
-				// if(rotate)
-				// 	rotate = false;
 				if(event.path[0].type != 'text')
 					event.preventDefault();
-				
 
 				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
@@ -450,7 +449,6 @@
 					var r2= $('<input type="button" class="btn" value="成長星願" onclick="fun2(' + INTERSECTED.userData.localId + ')" />');
 					
 					$("#btn").html('<br>').append(r1, r2);
-
 
 				} else {
 					if(event.path['1'].id != 'btn'){
