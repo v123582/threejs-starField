@@ -133,7 +133,7 @@
 			var objects = [];
 
 			var PI2 = Math.PI * 2;
-
+			var allWishName = [];
 			var programFill = function ( context ) {
 
 				context.beginPath();
@@ -544,6 +544,10 @@
 						alert('沒有填願望是不能許願的！');
 						return ;
 					}
+					if(allWishName.indexOf('邱一晉') > 0){
+						alert('這個名字已經被使用了 O____O，許願失敗');
+						return;
+					}
 				}
 
 
@@ -643,6 +647,9 @@
 					isCreate = false;
 				if(state == 'new')
 					isCreate = true;
+
+				allWishName.push(particle.userData.wishPeople);
+				console.log(allWishName);
 
 			}
 			
