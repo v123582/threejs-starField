@@ -459,8 +459,9 @@
 					$('#count').html(INTERSECTED.userData.count);
 					var r1= $('<input type="button" class="btn" value="星願升空" onclick="fun1(' + INTERSECTED.userData.localId + ')" />');
 					var r2= $('<input type="button" class="btn" value="成長星願" onclick="fun2(' + INTERSECTED.userData.localId + ')" />');
+					var r3= $('<input type="button" class="btn" value="分享星願" onclick=fun3(' + INTERSECTED.userData.id + ',"' + INTERSECTED.userData.content + '") />');
 					
-					$("#btn").html('<br>').append(r1, r2);
+					$("#btn").html('<br>').append(r1, r2, r3);
 
 				} else {
 					if(event.path['1'].id != 'btn'){
@@ -772,6 +773,21 @@
 				        }
 				    });
 			}
+
+
+			function fun3(id, content) {
+				
+				var share_url= 'https://www.facebook.com/dialog/feed?'+
+				                'app_id=615056238621832'+
+				                '&display=popup'+
+				                '&caption='+'我在 TEDxHsinchu 許的願'+
+				                '&description='+ content + '...' +
+				                '&link='+"v123582.github.io/threejs-starField/";
+				                
+				   window.open(share_url);
+
+			}
+
 
 		</script>
 		<script>  
