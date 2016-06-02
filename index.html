@@ -710,8 +710,13 @@
 			function fun1(id) {
 				// console.log('===== 星願升空 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
-				$('#count').html(objects[id].userData.count);
-				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + 5;
+				$('#count').html('得到 ' + objects[id].userData.count + ' 個祝福');
+				if(objects[id].userData.y > 600) updateSize = 0.5;
+				if(objects[id].userData.y < 300) updateSize = 1;
+				if(objects[id].userData.y < 100) updateSize = 5;
+
+				objects[id].userData.y = objects[id].position.y = Number(objects[id].position.y) + updateSize;
+				objects[id].userData.z = objects[id].position.z = Number(objects[id].position.z) + updateSize;
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishName=' 	+ objects[id].userData.wishName + 
@@ -746,8 +751,12 @@
 			function fun2(id) {
 				// console.log('===== 成長星願 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
-				$('#count').html(objects[id].userData.count);
-				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) +5;
+				$('#count').html('得到 ' + objects[id].userData.count + ' 個祝福');
+				if(objects[id].userData.scale > 300) updateSize = 0.5;
+				if(objects[id].userData.scale < 300) updateSize = 1;
+				if(objects[id].userData.scale < 100) updateSize = 5;
+				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) + updateSize;
+
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
 					'?light='		+ objects[id].userData.light + 
 					'&wishName=' 	+ objects[id].userData.wishName + 
