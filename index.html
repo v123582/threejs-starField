@@ -459,7 +459,7 @@
 					$('#wishPeople').html(INTERSECTED.userData.wishPeople);
 					$('#wishid').html('星願 #'+INTERSECTED.userData.id);
 					$('#date').html(INTERSECTED.userData.date);
-					$('#count').html(INTERSECTED.userData.count);
+					$('#count').html('得到 ' + INTERSECTED.userData.count + ' 個祝福');
 					var r1= $('<input type="button" class="btn" value="星願升空" onclick="fun1(' + INTERSECTED.userData.localId + ')" />');
 					var r2= $('<input type="button" class="btn" value="成長星願" onclick="fun2(' + INTERSECTED.userData.localId + ')" />');
 					var r3= $('<input type="button" class="btn" value="分享星願" onclick=fun3(' + INTERSECTED.userData.id + ',"' + INTERSECTED.userData.wishPeople + '") />');
