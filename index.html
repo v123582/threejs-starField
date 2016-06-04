@@ -790,10 +790,10 @@
 				// console.log('===== 成長星願 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html('得到 ' + objects[id].userData.count + ' 個祝福');
-				if(objects[id].userData.scale > 300) updateSize = 0.1;
-				if(objects[id].userData.scale < 300) updateSize = 0.5;
-				if(objects[id].userData.scale < 150) updateSize = 1;
-				if(objects[id].userData.scale < 100) updateSize = 5;
+				if(objects[id].userData.scale > 180) updateSize = 0.1;
+				if(objects[id].userData.scale < 180) updateSize = 0.5;
+				if(objects[id].userData.scale < 120) updateSize = 1;
+				if(objects[id].userData.scale < 60) updateSize = 5;
 				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) + updateSize;
 
 				var url = 'http://tedxhsinchu.com/star/wish/update' + 
