@@ -94,7 +94,7 @@
 					 <span id='date' style="color: gray; font-size: 10pt;"></span>
 					 <span id='count' style="color: #f39800; font-size: 10pt;"></span>
 				</div>
-				<span id='content' style="color: white; font-size: 20pt;"></span>
+				<span id='content' style="color: white; font-size: 20pt;" ></span>
 				<span id='wishPeople' style="color: white; font-size: 10pt;"></span>
 				<br>
 				<span id='btn' style=""></span>
@@ -107,7 +107,7 @@
 			<span id='wishHoverName' style="color: white; font-size: 12pt;">______________</span>
 			<span style="color: gray; font-size: 12pt;"> 的創願：） </span>
 			<br><br>
-			<input type="text" id="contentInput" class="input" name="contentInput" placeholder="請輸入你想許的願望">
+			<input type="text" id="contentInput" class="input" name="contentInput" placeholder="請輸入你想許的願望" minlength="15" >
 			<input type="text" id="WishnPeopleInput" class="input" placeholder="請輸入你的名字">
 			<input type="hidden" id="WishFBidInput">
 			<input type="hidden" id="WishEmailInput">
@@ -584,8 +584,12 @@
 
 				if(state == 'new'){
 
-					if($('#WishnPeopleInput').val().length == 0){
-						alert('沒有填願望是不能許願的！');
+					if($('#contentInput').val().length <= 5){
+						alert('沒有填願望或願望太短（六個字以下）是不能許願的！');
+						return ;
+					}
+					if($('#WishnPeopleInput').val().length <= 0){
+						alert('沒有名字是不可以許願的！');
 						return ;
 					}
 					if(allWishName.indexOf($('#WishnPeopleInput').val()) > 0){
@@ -786,8 +790,9 @@
 				// console.log('===== 成長星願 clicked =====');
 				objects[id].userData.count = Number(objects[id].userData.count) + 1;
 				$('#count').html('得到 ' + objects[id].userData.count + ' 個祝福');
-				if(objects[id].userData.scale > 300) updateSize = 0.5;
-				if(objects[id].userData.scale < 300) updateSize = 1;
+				if(objects[id].userData.scale > 300) updateSize = 0.1;
+				if(objects[id].userData.scale < 300) updateSize = 0.5;
+				if(objects[id].userData.scale < 150) updateSize = 1;
 				if(objects[id].userData.scale < 100) updateSize = 5;
 				objects[id].userData.scale = objects[id].scale.x = objects[id].scale.y = Number(objects[id].scale.y) + updateSize;
 
