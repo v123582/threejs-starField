@@ -458,16 +458,22 @@
 
 				if ( intersects.length > 0 ) {
 					
+					lightId = INTERSECTED.id;
+
 					if(lightId > 0){ 
 						for (var i = objects.length - 1; i >= 0; i--) {
-							if(objects[i].id == lightId)
-								objects[i].material.program = programStroke;	
+							if(objects[i].id == lightId){
+								objects[i].material.color.setHex(0xf7f8f8);
+								objects[i].material.program = programFill;	
+								objects[i].userData.light = true;
+							}
+							else{
+								objects[i].material.program = programStroke;
+							}	
 						}
 					}
-					INTERSECTED.material.color.setHex(0xf7f8f8);
-					INTERSECTED.material.program = programFill;	
-					INTERSECTED.userData.light = true;
-					lightId = INTERSECTED.id;
+
+					
 					// console.log('===== onDocumentMouseDown: click =====');
 
 					$("#infomation").css('top', event.clientY - 80 );
@@ -484,6 +490,9 @@
 					$("#btn").html('<br>').append(r1, r2, r3);
 					$('#infomation').css('backgroundColor','rgba(0, 0, 0, 0.6'); 
 
+
+
+
 				} else {
 					if(event.path['1'].id != 'btn'){
 						$("#content").html('');
@@ -492,6 +501,7 @@
 						$("#date").html('');
 						$("#count").html('');
 						$("#btn").html('');
+						$('#infomation').css('backgroundColor',''); 
 					}
 				}
 
