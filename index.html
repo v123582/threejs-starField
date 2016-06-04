@@ -391,8 +391,9 @@
 					if ( INTERSECTED != intersects[ 0 ].object ) {
 						
 
-						if ( INTERSECTED && INTERSECTED.userData.light == false )
+						if ( INTERSECTED && INTERSECTED.userData.light == false ){
 							INTERSECTED.material.program = programStroke;
+						}
 
 						INTERSECTED = intersects[ 0 ].object;
 						if ( INTERSECTED && INTERSECTED.material.program != programFill){
@@ -416,7 +417,8 @@
 
 					if ( INTERSECTED && INTERSECTED.material.program != programStroke){
 						// console.log('===== onDocumentMouseMove: Off =====');
-						INTERSECTED.material.program = programStroke;	
+						if(INTERSECTED.id != lightId)
+							INTERSECTED.material.program = programStroke;	
 					}
 
 					INTERSECTED = null;
