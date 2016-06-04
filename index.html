@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		
 		<meta property="og:description" content="許一個最美好的願，與他人一起探索生命" />
-		<meta property="og:title" content="星願探索 | TedxHsinch" />
+		<meta property="og:title" content="星願探索 | TedxHsinchu" />
 		<meta property="og:url" content="http://v123582.github.io/threejs-starField/" />
 		<meta property="og:image" content="http://imgur.com/rAkUTb7.jpg" />
 		<meta property="fb:app_id" content="615056238621832" />
@@ -487,7 +487,7 @@
 					$('#count').html('得到 ' + INTERSECTED.userData.count + ' 個祝福');
 					var r1= $('<input type="button" class="btn" value="星願升空" onclick="fun1(' + INTERSECTED.userData.localId + ')" />');
 					var r2= $('<input type="button" class="btn" value="成長星願" onclick="fun2(' + INTERSECTED.userData.localId + ')" />');
-					var r3= $('<input type="button" class="btn" value="分享星願" onclick=fun3(' + INTERSECTED.userData.id + ',"' + INTERSECTED.userData.wishPeople + '") />');
+					var r3= $('<input type="button" class="btn" value="分享星願" onclick=fun3(' + INTERSECTED.userData.id + ',"' + INTERSECTED.userData.wishPeople + '","' + INTERSECTED.userData.content +'") />');
 					
 					$("#btn").html('<br>').append(r1, r2, r3);
 					$('#infomation').css('backgroundColor','rgba(0, 0, 0, 0.6'); 
@@ -827,11 +827,11 @@
 			}
 
 
-			function fun3(id, wishPeople) {
+			function fun3(id, wishPeople, wishContent) {
 				var share_url= 'https://www.facebook.com/dialog/feed?'+
 				                'app_id=615056238621832'+
 				                '&display=popup'+
-				                '&description='+ wishPeople + '在 TEDxHsinchu 許的願...' +
+				                '&description='+ wishPeople + '在 TEDxHsinchu 許了' + wishContent +
 				                '&link='+window.location.hostname+window.location.pathname + "?id=" + id;
 				   
 				   // alert(share_url);    
