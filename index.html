@@ -686,6 +686,8 @@
 			
 			var newPost = 0;
 			function createOneAnimation() {
+					objects[newId].material.program = programFill;
+					objects[newId].material.color.setHex(0xf39800);
 					objects[newId].userData.y = objects[newId].position.y = objects[newId].position.y + 5;
 					newPost += 5;
 					if(newPost == 200){
@@ -717,9 +719,9 @@
 			           				// console.log('===== Updata Stars =====');
 									// console.log(msg);
 									// console.log('==========');
-									console.log('1234567');
-									sleep(3000);
-									location.replace("?id=" + objects[newId].userData.id)
+									// sleep(3000);
+									// location.replace("?id=" + objects[newId].userData.id);
+									
 						        }
 						  });
 					}
