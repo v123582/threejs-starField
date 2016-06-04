@@ -8,7 +8,7 @@
 		<meta property="og:description" content="許一個最美好的願，與他人一起探索生命" />
 		<meta property="og:title" content="星願探索 | TedxHsinch" />
 		<meta property="og:url" content="http://v123582.github.io/threejs-starField/" />
-		<meta property="og:image" content="http://i.imgur.com/r1U2lvD.jpg" />
+		<meta property="og:image" content="http://imgur.com/rAkUTb7" />
 		<meta property="fb:app_id" content="615056238621832" />
 
 
@@ -280,6 +280,23 @@
 
 			}
 			var maxId = 0;
+
+
+			function $_GET(param) {
+				var vars = {};
+				window.location.href.replace( location.hash, '' ).replace( 
+					/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+					function( m, key, value ) { // callback
+						vars[key] = value !== undefined ? value : '';
+					}
+				);
+
+				if ( param ) {
+					return vars[param] ? vars[param] : null;	
+				}
+				return vars;
+			}
+
 			function loadData() {
 				// // console.log('===== Clear =====');
 				// for ( i = scene.children.length - 1; i >= 0 ; i -- ) {
@@ -316,8 +333,8 @@
 									// console.log('scene=>' + scene.children[j].userData.id);
 									if(initData[i].id != scene.children[j].userData.id){
 										createOne('init', initData[i]);
-										var pathname = window.location.href ; // Returns path only
-										if(objects[i].userData.id == pathname.split("#")[1]){
+										var pathnameId = $_GET('id') ; // Returns path only
+										if(objects[i].userData.id == pathnameId){
 											objects[i].material.program = programFill;
 											objects[i].material.color.setHex(0xf39800);
 										}
@@ -789,12 +806,11 @@
 
 
 			function fun3(id, wishPeople) {
-				
 				var share_url= 'https://www.facebook.com/dialog/feed?'+
 				                'app_id=615056238621832'+
 				                '&display=popup'+
 				                '&description='+ wishPeople + '在 TEDxHsinchu 許的願...' +
-				                '&link='+"v123582.github.io/threejs-starField/#" + id;
+				                '&link='+window.location.hostname + "/?id=" + id;
 				   
 				   alert(share_url);    
 				   window.open(share_url);
